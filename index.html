@@ -17,7 +17,6 @@
          <ul>
             <li><a href="index.html">Início</a></li>
             <li><a href="produtos.html">Produtos</a></li>
-            <li><a href="contato.html">Contato</a></li>
             <li><a href="sobre.html">Sobre Nós</a></li>
             <li><a href="login.html">Login</a></li>
          </ul>
@@ -27,10 +26,11 @@
     <main>
         <section class="hero">
             <div class="hero-content">
-             <h1>Elegância em cada detalhe.</h1>
-
+             <h1>Nova Coleção Primavera 🌸</h1>
+               
                <p>
-                  Bolsas e acessórios que unem estilo, qualidade e praticidade para acompanhar você em todos os momentos.
+                  Bolsas e acessórios para mulheres
+                  que valorizam elegância e praticidade.
                </p>
 
                <a href="produtos.html" class="btn">
@@ -39,37 +39,106 @@
             </div>
 
             <div class="hero-image">
-               <h1>🌸</h1>
+               <img src="/assets/img/bolsa-hero.png" width="500" alt="Bolsa Charmê Boutique">
             </div>
                
          </section>
 
          <section class="categories">
-            <h3>Categorias</h3>
-            <ul>
-               <li><a href="categorias.html?categoria=bolsas">Bolsas</a></li>
-               <li><a href="categorias.html?categoria=necessaires">Necessaires</a></li>
-               <li><a href="categorias.html?categoria=acessorios">Acessórios</a></li>
-               <li><a href="categorias.html?categoria=maquiagens">Maquiagens</a></li>
+
+            <div class="categories-header">
+               <h2>Compre por Categoria</h2>
+               <p>Encontre os melhores produtos separados especialmente para você</p>
+            </div>
+            
+            <ul class="categories-grid">
+               <li>
+                  <a href="produtos.html?categoria=bolsas" class="category-card">
+                        <span class="category-icon">👜</span>
+                        <span class="category-name">Bolsas</span>
+                  </a>
+               </li>
+               <li>
+                  <a href="produtos.html?categoria=necessaires" class="category-card">
+                        <span class="category-icon">🧺</span>
+                        <span class="category-name">Necessaires</span>
+                  </a>
+               </li>
+               <li>
+                  <a href="produtos.html?categoria=acessorios" class="category-card">
+                        <span class="category-icon">👓</span>
+                        <span class="category-name">Acessórios</span>
+                  </a>
+               </li>
+               <li>
+                  <a href="produtos.html?categoria=maquiagens" class="category-card">
+                        <span class="category-icon">💄</span>
+                        <span class="category-name">Maquiagens</span>
+                  </a>
+               </li>
+               <li>
+                  <a href="produtos.html?categoria=promocoes" class="category-card promotion">
+                        <span class="category-icon">🎁</span>
+                        <span class="category-name">Promoções</span>
+                  </a>
+               </li>
             </ul>
          </section>
 
          <section class="featured-products">
             <h3>Produtos em Destaque</h3>
-            <div class="product-list">
-               <div class="product-item">
+            <div class="product-grid">
+
+               <div class="product-card">
                   <h4>Bolsa Mykonos</h4>
+                  <img src="/assets/img/bolsa-mykonos.png" alt="Bolsa Mykonos">
                   <p>R$ 199,90</p>
                </div>
+
+               <div class="product-card">
+                  <h4>Necessaire Paris</h4>
+                  <img src="/assets/img/necessaire-paris.jpg" alt="Necessaire Paris">
+                  <p>R$ 89,90</p>
+               </div>
+
+               <div class="product-card">
+                  <h4>Óculos de Sol Riviera</h4>
+                  <img src="/assets/img/oculos-riviera.png" alt="Óculos de Sol Riviera">
+                  <p>R$ 149,90</p>
+               </div>
+
+               <div class="product-card">
+                  <h4>Kit Maquiagem Glam</h4>
+                  <img src="/assets/img/kit-maquiagem-glam.png" alt="Kit Maquiagem Glam">
+                  <p>R$ 129,90</p>
+               </div>
+
             </div>
          </section>
 
-         <section class="newsletter">
+         <section class="contact">
+
+         <div class="contact-newsletter">
+
             <h3>Assine nossa Newsletter</h3>
             <form id="newsletter-form">
                <input type="email" placeholder="Digite seu e-mail" required>
-               <button type="submit">Assinar</button>
+               <button type="submit" class="btn">Assinar</button>
             </form>
+
+         </div>
+
+         <div class="contact-info">
+
+         <p>📧 ahirawt@gmail.com</p>
+
+         <p>📱 (62) 9 8218-9869</p>
+
+         <p>📍 Goiânia - GO</p>
+
+         <p>🕒 Atendimento Online</p>
+
+         </div>   
          </section>
 
       </main>

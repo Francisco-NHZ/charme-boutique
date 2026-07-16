@@ -99,9 +99,9 @@ header a:hover {
 
     margin: 0 auto;
 
-    padding: 120px 40px 80px;
+    padding: 150px 80px 80px;
 
-    gap: 50px;
+    gap: 70px;
 }
 
 .hero-content {
@@ -112,11 +112,11 @@ header a:hover {
 
     align-items: flex-start;
 
-    max-width: 600px;
+    max-width: 500px;
 }
 
 .hero-content h1 {
-    font-size: 48px;
+    font-size: 2.3rem;
     color: var(--cor-principal);
 }
 
@@ -131,6 +131,11 @@ header a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.hero-image img {
+    max-width: 560px;
+    width: 100%;
 }
 
 /* ========================================
@@ -157,7 +162,265 @@ header a:hover {
     color: var(--cor-principal);
 
     transform: translateY(-3px);
+
+    box-shadow: 0 10px 20px rgba(0,0,0,.15);
+
 }
+
+/* ========================================
+   CATEGORIAS
+======================================== */
+
+.categories {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px;
+}
+
+.categories-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.categories-header h2 {
+    font-size: 36px;
+    color: var(--cor-principal);
+    margin-bottom: 10px;
+}
+
+.categories-header p {
+    color: var(--cor-texto);
+}
+
+.categories-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.category-card {
+    width: 180px;
+    height: 180px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+
+    background: var(--cor-branca);
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+
+    transition: .3s;
+
+    color: var(--cor-texto);
+}
+
+.category-card:hover {
+
+    transform: translateY(-8px);
+
+    box-shadow: 0 12px 24px rgba(0,0,0,.15);
+
+}
+
+.category-icon{
+
+    font-size:48px;
+
+}
+
+.category-name{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+/* ========================================
+   PRODUTOS
+======================================== */
+
+.featured-products{
+
+    max-width:1200px;
+
+    margin:0 auto;
+
+    padding:80px 40px;
+
+}
+
+.featured-products h3{
+
+    text-align:center;
+
+    font-size:36px;
+
+    color:var(--cor-principal);
+
+    margin-bottom:50px;
+
+}
+
+.product-grid{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:30px;
+
+}
+
+.product-card{
+
+    width:250px;
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.product-card img{
+    width: 100%;
+    height: 220px;
+
+    object-fit: contain;
+    display: block;
+
+    margin-bottom: 20px;
+}
+
+.product-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 12px 24px rgba(0,0,0,.15);
+
+}
+
+.product-card h4{
+
+    color:var(--cor-principal);
+
+    margin-bottom:15px;
+
+}
+
+.product-card p{
+
+    font-size:20px;
+
+    font-weight:bold;
+
+}
+
+/* ========================================
+   CONTATO
+======================================== */
+
+.contact {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 60px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 80px;
+
+    background: var(--cor-branca);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+}
+
+.newsletter-content {
+    flex: 2;
+}
+
+.newsletter-content h3 {
+    font-size: 2rem;
+    color: var(--cor-principal);
+    margin-bottom: 12px;
+}
+
+.newsletter-content p {
+    margin-bottom: 25px;
+    color: var(--cor-texto);
+}
+
+#newsletter-form {
+    display: flex;
+    gap: 15px;
+}
+
+#newsletter-form input {
+    flex: 1;
+    padding: 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+#newsletter-form input:focus {
+    outline: none;
+    border-color: var(--cor-secundaria);
+}
+
+#newsletter-form button {
+    padding: 16px 30px;
+    background: var(--cor-secundaria);
+    color: var(--cor-branca);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: .3s;
+}
+
+#newsletter-form button:hover {
+    background: var(--cor-dourado);
+    color: var(--cor-principal);
+}
+
+.contact-info {
+    flex: 1;
+    padding-left: 50px;
+    border-left: 2px solid #eee;
+}
+
+.contact-info h3 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: var(--cor-principal);
+}
+
+.contact-info p {
+    margin-bottom: 15px;
+    line-height: 1.8;
+    color: var(--cor-texto);
+}   
+
 
 /* ========================================
    FOOTER
