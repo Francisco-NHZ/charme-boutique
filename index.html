@@ -1,185 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
- <head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Charme Boutique</title>
- </head>
+    <title>Charmê Boutique</title>
+  </head>
 
- <body>
-   <header>
-
+  <body>
+    <header>
       <a href="index.html" class="logo">🌸 Charmê Boutique</a>
 
       <nav>
-         
-         <ul>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="produtos.html">Produtos</a></li>
-            <li><a href="sobre.html">Sobre Nós</a></li>
-            <li><a href="login.html">Login</a></li>
-         </ul>
-      </nav>   
-   </header>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="sobre.html">Sobre Nós</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+
+        <form class="search-form" role="search">
+          <label class="sr-only" for="site-search">Buscar produtos</label>
+          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off">
+          <button type="submit" aria-label="Buscar">🔎</button>
+        </form>
+      </nav>
+    </header>
 
     <main>
-        <section class="hero">
-            <div class="hero-content">
-             <h1>Nova Coleção Primavera 🌸</h1>
-               
-               <p>
-                  Bolsas e acessórios para mulheres
-                  que valorizam elegância e praticidade.
-               </p>
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Nova Coleção Primavera 🌸</h1>
+          <p>
+            Bolsas e acessórios para mulheres que valorizam elegância e
+            praticidade.
+          </p>
+          <a href="produtos.html" class="btn">Ver Coleção</a>
+        </div>
 
-               <a href="produtos.html" class="btn">
-                   Ver Coleção
-               </a>
-            </div>
+        <div class="hero-image">
+          <img src="/assets/img/bolsa-hero.png" width="500" alt="Bolsa Charmê Boutique">
+        </div>
+      </section>
 
-            <div class="hero-image">
-               <img src="/assets/img/bolsa-hero.png" width="500" alt="Bolsa Charmê Boutique">
-            </div>
-               
-         </section>
+      <section class="categories">
+        <div class="categories-header">
+          <h2>Compre por Categoria</h2>
+          <p>Encontre os melhores produtos separados especialmente para você</p>
+        </div>
 
-         <section class="categories">
+        <ul class="categories-grid">
+          <li>
+            <a href="produtos.html?categoria=bolsas" class="category-card">
+              <span class="category-icon">👜</span>
+              <span class="category-name">Bolsas</span>
+            </a>
+          </li>
+          <li>
+            <a href="produtos.html?categoria=necessaires" class="category-card">
+              <span class="category-icon">🧺</span>
+              <span class="category-name">Necessaires</span>
+            </a>
+          </li>
+          <li>
+            <a href="produtos.html?categoria=acessorios" class="category-card">
+              <span class="category-icon">👓</span>
+              <span class="category-name">Acessórios</span>
+            </a>
+          </li>
+          <li>
+            <a href="produtos.html?categoria=maquiagens" class="category-card">
+              <span class="category-icon">💄</span>
+              <span class="category-name">Maquiagens</span>
+            </a>
+          </li>
+          <li>
+            <a href="produtos.html?categoria=promocoes" class="category-card promotion">
+              <span class="category-icon">🎁</span>
+              <span class="category-name">Promoções</span>
+            </a>
+          </li>
+        </ul>
+      </section>
 
-            <div class="categories-header">
-               <h2>Compre por Categoria</h2>
-               <p>Encontre os melhores produtos separados especialmente para você</p>
-            </div>
-            
-            <ul class="categories-grid">
-               <li>
-                  <a href="produtos.html?categoria=bolsas" class="category-card">
-                        <span class="category-icon">👜</span>
-                        <span class="category-name">Bolsas</span>
-                  </a>
-               </li>
-               <li>
-                  <a href="produtos.html?categoria=necessaires" class="category-card">
-                        <span class="category-icon">🧺</span>
-                        <span class="category-name">Necessaires</span>
-                  </a>
-               </li>
-               <li>
-                  <a href="produtos.html?categoria=acessorios" class="category-card">
-                        <span class="category-icon">👓</span>
-                        <span class="category-name">Acessórios</span>
-                  </a>
-               </li>
-               <li>
-                  <a href="produtos.html?categoria=maquiagens" class="category-card">
-                        <span class="category-icon">💄</span>
-                        <span class="category-name">Maquiagens</span>
-                  </a>
-               </li>
-               <li>
-                  <a href="produtos.html?categoria=promocoes" class="category-card promotion">
-                        <span class="category-icon">🎁</span>
-                        <span class="category-name">Promoções</span>
-                  </a>
-               </li>
-            </ul>
-         </section>
+      <section class="featured-products">
+        <h3>Produtos em Destaque</h3>
 
-         <section class="featured-products">
+        <div class="product-grid">
+          <div class="product-card">
+            <img class="product-image" src="/assets/img/bolsa-mykonos.png" alt="Bolsa Mykonos">
+            <h4>Bolsa Mykonos</h4>
+            <p class="price">R$ 199,90</p>
+            <a href="#" class="btn">Comprar</a>
+          </div>
 
-            <h3>Produtos em Destaque</h3>
+          <div class="product-card">
+            <img class="product-image" src="/assets/img/necessaire-paris.jpg" alt="Necessaire Paris">
+            <h4>Necessaire Paris</h4>
+            <p class="price">R$ 89,90</p>
+            <a href="#" class="btn">Comprar</a>
+          </div>
 
-            <div class="product-grid">
+          <div class="product-card">
+            <img class="product-image" src="/assets/img/oculos-riviera.png" alt="Óculos de Sol Riviera">
+            <h4>Óculos de Sol Riviera</h4>
+            <p class="price">R$ 149,90</p>
+            <a href="#" class="btn">Comprar</a>
+          </div>
 
-               <div class="product-card">
+          <div class="product-card">
+            <img class="product-image" src="/assets/img/kit-maquiagem-glam.png" alt="Kit Maquiagem Glam">
+            <h4>Kit Maquiagem Glam</h4>
+            <p class="price">R$ 129,90</p>
+            <a href="#" class="btn">Comprar</a>
+          </div>
+        </div>
+      </section>
 
-                  <img class="product-image" src="/assets/img/bolsa-mykonos.png" alt="Bolsa Mykonos">
-                  <h4>Bolsa Mykonos</h4>
-                  <p class="price">R$ 199,90</p>
-                  <a href="#" class="btn">Comprar</a>
+      <section class="contact" id="contact">
+        <div class="contact-newsletter">
+          <span class="contact-badge">✨ Exclusivo</span>
+          <h3>Receba novidades da coleção</h3>
+          <p>Entre para ganhar acesso antecipado a lançamentos, promoções especiais e ofertas VIP da Charmê Boutique.</p>
+          <form id="newsletter-form">
+            <input type="email" placeholder="Digite seu e-mail" required>
+            <button type="submit" class="btn">Assinar</button>
+          </form>
+        </div>
 
-               </div>
+        <div class="contact-info">
+          <h4>Fale Conosco</h4>
+          <p>📧 ahirawt@gmail.com</p>
+          <p>📱 (62) 9 8218-9869</p>
+          <p>📍 Goiânia - GO</p>
+          <p>🕒 Atendimento Online</p>
+        </div>
+      </section>
+    </main>
 
-               <div class="product-card">
-
-                  <img class="product-image" src="/assets/img/necessaire-paris.jpg" alt="Necessaire Paris">
-                  <h4>Necessaire Paris</h4>
-                  <p class="price">R$ 89,90</p>
-                  <a href="#" class="btn">Comprar</a>
-
-               </div>
-
-               <div class="product-card">
-
-                  <img class="product-image" src="/assets/img/oculos-riviera.png" alt="Óculos de Sol Riviera">
-                  <h4>Óculos de Sol Riviera</h4>
-                  <p class="price">R$ 149,90</p>
-                  <a href="#" class="btn">Comprar</a>
-
-               </div>
-
-               <div class="product-card">
-
-                  <img class="product-image" src="/assets/img/kit-maquiagem-glam.png" alt="Kit Maquiagem Glam">
-                  <h4>Kit Maquiagem Glam</h4>
-                  <p class="price">R$ 129,90</p>
-                  <a href="#" class="btn">Comprar</a>
-
-               </div>
-
-            </div>
-            
-         </section>
-
-         <section class="contact">
-
-         <div class="contact-newsletter">
-
-            <h3>Assine nossa Newsletter</h3>
-            <form id="newsletter-form">
-               <input type="email" placeholder="Digite seu e-mail" required>
-               <button type="submit" class="btn">Assinar</button>
-            </form>
-
-         </div>
-
-         <div class="contact-info">
-
-         <p>📧 ahirawt@gmail.com</p>
-
-         <p>📱 (62) 9 8218-9869</p>
-
-         <p>📍 Goiânia - GO</p>
-
-         <p>🕒 Atendimento Online</p>
-
-         </div>   
-         </section>
-
-      </main>
-
-     <footer>
-
-    <p>🌸 Charmê Boutique</p>
-
-    <p>&copy; 2026 Todos os direitos reservados.</p>
-
-    <p>Desenvolvido por NHZ WebSolutions</p>
-
-    <a
-        href="https://www.linkedin.com/in/nhzfrancisco/"
-        target="_blank"
-        rel="noopener noreferrer">
-        Francisco Almeida
-    </a>
-
-</footer>
-
-
-
-
+    <footer>
+      <p>🌸 Charmê Boutique</p>
+      <p>&copy; 2026 Todos os direitos reservados.</p>
+      <p>Desenvolvido por NHZ WebSolutions</p>
+      <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
+    </footer>
 
     <script src="script.js"></script>
- </body>
-
+  </body>
 </html>
