@@ -3,15 +3,25 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Charmê Boutique</title>
   </head>
 
   <body>
-    <header>
-      <a href="index.html" class="logo">🌸 Charmê Boutique</a>
+    <header class="site-header">
+      <a href="index.html" class="logo" aria-label="Charmê Boutique home">
+        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image">
+      </a>
 
-      <nav>
+      <div class="header-actions" aria-label="Ações do cabeçalho">
+        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      </div>
+
+      <nav class="main-nav">
         <ul>
           <li><a href="index.html">Início</a></li>
           <li><a href="produtos.html">Produtos</a></li>
@@ -39,7 +49,7 @@
         </div>
 
         <div class="hero-image">
-          <img src="/assets/img/bolsa-hero.png" width="500" alt="Bolsa Charmê Boutique">
+          <img src="/assets/img/bolsa-hero.png" alt="Bolsa Charmê Boutique">
         </div>
       </section>
 
@@ -87,34 +97,36 @@
         <h3>Produtos em Destaque</h3>
 
         <div class="product-grid">
-          <div class="product-card">
+          <article class="product-card" data-name="Bolsa Mykonos" data-category="bolsas" data-description="Bolsa estruturada com acabamento sofisticado e espaço ideal para o dia a dia." data-price="R$ 199,90" data-image="/assets/img/bolsa-mykonos.png">
             <img class="product-image" src="/assets/img/bolsa-mykonos.png" alt="Bolsa Mykonos">
             <h4>Bolsa Mykonos</h4>
             <p class="price">R$ 199,90</p>
-            <a href="#" class="btn">Comprar</a>
-          </div>
+            <button type="button" class="btn product-buy-btn">Comprar</button>
+          </article>
 
-          <div class="product-card">
+          <article class="product-card" data-name="Necessaire Paris" data-category="necessaires" data-description="Necessaire elegante com compartimentos práticos para cosméticos e pequenos objetos." data-price="R$ 89,90" data-image="/assets/img/necessaire-paris.jpg">
             <img class="product-image" src="/assets/img/necessaire-paris.jpg" alt="Necessaire Paris">
             <h4>Necessaire Paris</h4>
             <p class="price">R$ 89,90</p>
-            <a href="#" class="btn">Comprar</a>
-          </div>
+            <button type="button" class="btn product-buy-btn">Comprar</button>
+          </article>
 
-          <div class="product-card">
+          <article class="product-card" data-name="Óculos de Sol Riviera" data-category="acessorios" data-description="Óculos de sol com design clean, proteção UV e acabamento premium." data-price="R$ 149,90" data-image="/assets/img/oculos-riviera.png">
             <img class="product-image" src="/assets/img/oculos-riviera.png" alt="Óculos de Sol Riviera">
             <h4>Óculos de Sol Riviera</h4>
             <p class="price">R$ 149,90</p>
-            <a href="#" class="btn">Comprar</a>
-          </div>
+            <button type="button" class="btn product-buy-btn">Comprar</button>
+          </article>
 
-          <div class="product-card">
+          <article class="product-card" data-name="Kit Maquiagem Glam" data-category="maquiagens" data-description="Kit completo para looks sofisticados com produtos selecionados para todos os dias." data-price="R$ 129,90" data-image="/assets/img/kit-maquiagem-glam.png">
             <img class="product-image" src="/assets/img/kit-maquiagem-glam.png" alt="Kit Maquiagem Glam">
             <h4>Kit Maquiagem Glam</h4>
             <p class="price">R$ 129,90</p>
-            <a href="#" class="btn">Comprar</a>
-          </div>
+            <button type="button" class="btn product-buy-btn">Comprar</button>
+          </article>
         </div>
+
+        <p id="search-status" class="search-status" aria-live="polite"></p>
       </section>
 
       <section class="contact" id="contact">
@@ -123,9 +135,10 @@
           <h3>Receba novidades da coleção</h3>
           <p>Entre para ganhar acesso antecipado a lançamentos, promoções especiais e ofertas VIP da Charmê Boutique.</p>
           <form id="newsletter-form">
-            <input type="email" placeholder="Digite seu e-mail" required>
+            <input id="newsletter-email" type="email" placeholder="Digite seu e-mail" required>
             <button type="submit" class="btn">Assinar</button>
           </form>
+          <p id="newsletter-message" class="form-message" role="status" aria-live="polite"></p>
         </div>
 
         <div class="contact-info">
@@ -140,10 +153,24 @@
 
     <footer>
       <p>🌸 Charmê Boutique</p>
-      <p>&copy; 2026 Todos os direitos reservados.</p>
+      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
       <p>Desenvolvido por NHZ WebSolutions</p>
       <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
     </footer>
+
+    <div class="modal" id="product-modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" type="button" aria-label="Fechar" data-close-modal>×</button>
+        <img id="modal-image" src="" alt="">
+        <div class="modal-content">
+          <h3 id="modal-title"></h3>
+          <p id="modal-description"></p>
+          <p class="modal-price" id="modal-price"></p>
+          <button type="button" class="btn modal-buy-btn">Comprar</button>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>

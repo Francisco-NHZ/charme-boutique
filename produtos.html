@@ -8,10 +8,17 @@
   </head>
 
   <body>
-    <header>
-      <a href="index.html" class="logo">🌸 Charmê Boutique</a>
+    <header class="site-header">
+      <a href="index.html" class="logo" aria-label="Charmê Boutique home">
+        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image">
+      </a>
 
-      <nav>
+      <div class="header-actions" aria-label="Ações do cabeçalho">
+        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      </div>
+
+      <nav class="main-nav">
         <ul>
           <li><a href="index.html">Início</a></li>
           <li><a href="produtos.html">Produtos</a></li>
@@ -56,7 +63,7 @@
 
     <footer>
       <p>🌸 Charmê Boutique</p>
-      <p>&copy; 2026 Todos os direitos reservados.</p>
+      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
       <p>Desenvolvido por NHZ WebSolutions</p>
       <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
     </footer>

@@ -1,0 +1,19 @@
+<svg width="640" height="220" viewBox="0 0 640 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="18" y="18" width="604" height="184" rx="48" fill="#FFFDFB"/>
+  <rect x="36" y="36" width="152" height="148" rx="36" fill="url(#bg)"/>
+  <circle cx="112" cy="110" r="54" fill="#F73294"/>
+  <path d="M112 56C123.5 56 132.5 65 132.5 76.5C132.5 88 123.5 97 112 97C100.5 97 91.5 88 91.5 76.5C91.5 65 100.5 56 112 56Z" fill="#FFF8FB"/>
+  <path d="M112 71.5C119 71.5 124.5 77 124.5 84C124.5 91 119 96.5 112 96.5C105 96.5 99.5 91 99.5 84C99.5 77 105 71.5 112 71.5Z" fill="#F73294"/>
+  <path d="M92 118C97 129.5 102.5 136.5 112 136.5C121.5 136.5 127 129.5 132 118" stroke="#FFF8FB" stroke-width="8" stroke-linecap="round"/>
+  <path d="M148 82C156 64 171 56 184 56C199 56 214 64 221 82" stroke="#D4AF37" stroke-width="8" stroke-linecap="round"/>
+  <path d="M154 100C165 86 183 80 198 80C214 80 229 86 239 100" stroke="#F73294" stroke-width="8" stroke-linecap="round"/>
+  <text x="272" y="102" fill="#111111" font-family="'Playfair Display', 'Georgia', serif" font-size="42" font-weight="700" letter-spacing="1.5">CHARMÊ</text>
+  <text x="272" y="138" fill="#F73294" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="24" font-weight="600" letter-spacing="5">BOUTIQUE</text>
+  <rect x="270" y="148" width="128" height="4" rx="2" fill="#D4AF37"/>
+  <defs>
+    <linearGradient id="bg" x1="36" y1="36" x2="188" y2="184" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FCE9F1"/>
+      <stop offset="1" stop-color="#FFF2F8"/>
+    </linearGradient>
+  </defs>
+</svg>
