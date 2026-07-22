@@ -1,374 +1,479 @@
-/* ========================================
-   1. SELECIONANDO ELEMENTOS
-======================================== */
-
-// Header: controla a visibilidade ao rolar a página
-const header = document.querySelector("header");
+/* ==================================================
+   1. SELEÇÃO DE ELEMENTOS
+================================================== */
+const header = document.querySelector(".site-header");
 const menuToggle = document.querySelector(".menu-toggle");
 const searchToggle = document.querySelector(".search-toggle");
 const mainNav = document.querySelector(".main-nav");
-let lastScrollTop = 0;
-
-// Premium: cria uma barra de progresso no topo da página
-const scrollProgress = document.createElement("div");
-scrollProgress.id = "scroll-progress";
-document.body.prepend(scrollProgress);
-
-// Newsletter: pega o formulário, o campo de e-mail e a área de mensagem
+const searchForm = document.querySelector(".search-form");
+const searchInput = document.querySelector("#site-search");
+const searchStatus = document.querySelector("#search-status");
 const newsletterForm = document.querySelector("#newsletter-form");
 const newsletterEmail = document.querySelector("#newsletter-email");
 const newsletterMessage = document.querySelector("#newsletter-message");
 
-// Busca: pega o formulário de busca, o campo de texto, os cards e a mensagem de status
-const searchForm = document.querySelector(".search-form");
-const searchInput = document.querySelector("#site-search");
-const productCards = Array.from(document.querySelectorAll(".product-card"));
-const searchStatus = document.querySelector("#search-status");
-
-// Modal: pega o container do modal, imagem, título, descrição, preço e botões de fechar
 const modal = document.querySelector("#product-modal");
 const modalImage = document.querySelector("#modal-image");
 const modalTitle = document.querySelector("#modal-title");
 const modalDescription = document.querySelector("#modal-description");
 const modalPrice = document.querySelector("#modal-price");
-const closeModalButtons = document.querySelectorAll("[data-close-modal]");
-const modalBuyButtons = document.querySelectorAll(".modal-buy-btn");
+const modalCloseButtons = document.querySelectorAll("[data-close-modal]");
+const modalAddCartButton = document.querySelector(".modal-add-cart-btn, .modal-buy-btn");
 
-/* ========================================
-   2. FUNÇÕES DO HEADER
-======================================== */
+const cartCounter = document.querySelector("#cart-counter");
+const currentYearElement = document.querySelector("#current-year");
+const cartItemsContainer = document.querySelector("#cart-items");
+const cartTotalElement = document.querySelector("#cart-total");
+const clearCartButton = document.querySelector("#clear-cart");
+const checkoutLink = document.querySelector("#checkout-link");
 
-function toggleHeaderOnScroll() {
-    if (!header) return;
+const CART_KEY = "cart";
+let cart = [];
 
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+/* ==================================================
+   2. UTILITÁRIOS
+================================================== */
+function parsePrice(value) {
+  if (typeof value === "number") return value;
+  const cleaned = String(value || "")
+    .replace(/[^\d,.-]/g, "")
+    .replace(/\./g, "")
+    .replace(/,/g, ".");
+  return Number(cleaned) || 0;
+}
 
-    if (scrollTop > lastScrollTop && scrollTop > 80) {
-        header.classList.add("is-hidden");
-    } else {
-        header.classList.remove("is-hidden");
+function formatCurrency(value) {
+  return Number(value || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
+
+function getCartFromStorage() {
+  try {
+    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCart() {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  updateCartCounter();
+}
+
+/* ==================================================
+   3. CARRINHO
+================================================== */
+function updateCartCounter() {
+  if (!cartCounter) return;
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantidade || 0), 0);
+
+  if (cartCounter.tagName === "SPAN") {
+    cartCounter.textContent = totalItems;
+  } else {
+    cartCounter.textContent = `🛒 Carrinho (${totalItems})`;
+  }
+}
+
+function addToCartCard(card) {
+  if (!card?.dataset?.id) return;
+
+  const productId = card.dataset.id;
+  const existingItem = cart.find((item) => item.id === productId);
+  const price = parsePrice(card.dataset.price);
+
+  if (existingItem) {
+    existingItem.quantidade = (existingItem.quantidade || 0) + 1;
+  } else {
+    cart.push({
+      id: productId,
+      nome: card.dataset.name || "",
+      preco: price,
+      imagem: card.dataset.image || "",
+      quantidade: 1
+    });
+  }
+
+  saveCart();
+}
+
+function addToCartById(productId) {
+  const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
+  if (productCard) {
+    addToCartCard(productCard);
+  }
+}
+
+function calculateCartTotal() {
+  return cart.reduce(
+    (sum, item) => sum + parsePrice(item.preco) * (item.quantidade || 0),
+    0
+  );
+}
+
+function setCartItemQuantity(productId, quantity) {
+  const item = cart.find((entry) => entry.id === productId);
+  if (!item) return;
+  item.quantidade = Math.max(1, Number(quantity) || 1);
+  saveCart();
+  renderCartPage();
+}
+
+function removeCartItem(productId) {
+  cart = cart.filter((item) => item.id !== productId);
+  saveCart();
+  renderCartPage();
+}
+
+function renderCartPage() {
+  if (!cartItemsContainer) return;
+
+  if (!cart.length) {
+    cartItemsContainer.innerHTML = `
+      <div class="empty-cart">
+        <p>Seu carrinho está vazio.</p>
+        <a href="produtos.html" class="btn primary">Ver produtos</a>
+      </div>
+    `;
+    if (cartTotalElement) cartTotalElement.textContent = "R$ 0,00";
+    if (checkoutLink) {
+      checkoutLink.classList.add("disabled");
+      checkoutLink.setAttribute("aria-disabled", "true");
+    }
+    return;
+  }
+
+  if (checkoutLink) {
+    checkoutLink.classList.remove("disabled");
+    checkoutLink.removeAttribute("aria-disabled");
+  }
+
+  cartItemsContainer.innerHTML = cart
+    .map((item) => `
+      <article class="cart-item">
+        <img src="${item.imagem}" alt="${item.nome}" />
+        <div class="cart-item-info">
+          <h2>${item.nome}</h2>
+          <p class="item-price">${formatCurrency(parsePrice(item.preco))}</p>
+          <label>
+            Quantidade
+            <input
+              type="number"
+              min="1"
+              value="${item.quantidade}"
+              data-id="${item.id}"
+              class="cart-item-qty"
+            />
+          </label>
+          <p class="item-subtotal">${formatCurrency(parsePrice(item.preco) * item.quantidade)}</p>
+          <button type="button" class="btn cart-item-remove" data-id="${item.id}">
+            Remover
+          </button>
+        </div>
+      </article>
+    `)
+    .join("");
+
+  if (cartTotalElement) {
+    cartTotalElement.textContent = formatCurrency(calculateCartTotal());
+  }
+}
+
+function setupCartPageEvents() {
+  if (!cartItemsContainer) return;
+
+  cartItemsContainer.addEventListener("input", (event) => {
+    if (!event.target.matches(".cart-item-qty")) return;
+    const productId = event.target.dataset.id;
+    setCartItemQuantity(productId, event.target.value);
+  });
+
+  cartItemsContainer.addEventListener("click", (event) => {
+    const button = event.target.closest(".cart-item-remove");
+    if (!button) return;
+    const productId = button.dataset.id;
+    removeCartItem(productId);
+  });
+
+  if (clearCartButton) {
+    clearCartButton.addEventListener("click", () => {
+      cart = [];
+      saveCart();
+      renderCartPage();
+    });
+  }
+}
+
+/* ==================================================
+   4. MODAL DE PRODUTO
+================================================== */
+function openProductModal(card) {
+  if (!modal || !card) return;
+
+  modalImage.src = card.dataset.image || "";
+  modalImage.alt = card.dataset.name || "";
+  modalTitle.textContent = card.dataset.name || "";
+  modalDescription.textContent = card.dataset.description || "";
+  modalPrice.textContent = card.dataset.price || "";
+
+  if (modalAddCartButton) {
+    modalAddCartButton.dataset.id = card.dataset.id || "";
+  }
+
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeProductModal() {
+  if (!modal) return;
+
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+/* ==================================================
+   5. FILTRAGEM
+================================================== */
+function filterProducts(term) {
+  const cards = document.querySelectorAll(".product-card");
+  if (!cards.length) return;
+
+  const normalizedTerm = (term || "").toLowerCase().trim();
+  let visibleCount = 0;
+
+  cards.forEach((card) => {
+    const text = [
+      card.dataset.name,
+      card.dataset.category,
+      card.dataset.description
+    ].join(" ").toLowerCase();
+
+    const visible = !normalizedTerm || text.includes(normalizedTerm);
+    card.classList.toggle("is-hidden", !visible);
+    if (visible) visibleCount += 1;
+  });
+
+  if (!searchStatus) return;
+
+  if (!normalizedTerm) {
+    searchStatus.textContent = "Use a busca para encontrar produtos por nome ou categoria.";
+  } else if (visibleCount > 0) {
+    searchStatus.textContent = `Mostrando ${visibleCount} produto(s) para "${term}".`;
+  } else {
+    searchStatus.textContent = `Nenhum produto encontrado para "${term}".`;
+  }
+}
+
+/* ==================================================
+   6. SCROLL REVEAL
+================================================== */
+function setupScrollReveal() {
+  const revealElements = document.querySelectorAll(
+    ".hero, .categories, .featured-products, .contact, .product-card, .category-card, .contact-newsletter"
+  );
+
+  if (!revealElements.length) return;
+
+  revealElements.forEach((element) => {
+    element.style.opacity = "0";
+    element.style.transform = "translateY(24px)";
+    element.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+  });
+
+  const observer = new IntersectionObserver(
+    (entries, observerInstance) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const target = entry.target;
+        target.style.opacity = "1";
+        target.style.transform = "translateY(0)";
+        observerInstance.unobserve(target);
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+  );
+
+  revealElements.forEach((element) => observer.observe(element));
+}
+
+/* ==================================================
+   7. HEADER
+================================================== */
+function updateActiveNavLink() {
+  const links = document.querySelectorAll(".main-nav a");
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    link.classList.toggle("active", href === currentPage || (currentPage === "" && href === "index.html"));
+  });
+}
+
+function setupHeaderControls() {
+  if (!menuToggle || !searchToggle || !mainNav || !searchForm) return;
+
+  menuToggle.addEventListener("click", () => {
+    const opened = mainNav.classList.toggle("is-open");
+    menuToggle.setAttribute("aria-expanded", String(opened));
+    if (opened) {
+      searchForm.classList.remove("is-open");
+      searchToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  searchToggle.addEventListener("click", () => {
+    const opened = searchForm.classList.toggle("is-open");
+    searchToggle.setAttribute("aria-expanded", String(opened));
+    if (opened) {
+      searchInput?.focus();
+      mainNav.classList.add("is-open");
+      menuToggle.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (window.innerWidth <= 700 && !event.target.closest(".site-header")) {
+      mainNav.classList.remove("is-open");
+      searchForm.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      searchToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 700) {
+      mainNav.classList.remove("is-open");
+      searchForm.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      searchToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
+/* ==================================================
+   8. NEWSLETTER
+================================================== */
+function setupNewsletter() {
+  if (!newsletterForm || !newsletterEmail || !newsletterMessage) return;
+
+  newsletterForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const email = newsletterEmail.value.trim();
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!validEmail.test(email)) {
+      newsletterMessage.textContent = "Por favor, informe um e-mail válido.";
+      newsletterMessage.className = "form-message error";
+      newsletterEmail.focus();
+      return;
     }
 
-    lastScrollTop = scrollTop;
+    newsletterMessage.textContent = "E-mail cadastrado com sucesso!";
+    newsletterMessage.className = "form-message success";
+    newsletterForm.reset();
+  });
+}
+
+/* ==================================================
+   9. ANO AUTOMÁTICO
+================================================== */
+function updateCurrentYear() {
+  if (!currentYearElement) return;
+  currentYearElement.textContent = new Date().getFullYear();
+}
+
+/* ==================================================
+   10. SCROLL E PROGRESSO
+================================================== */
+function toggleHeaderOnScroll() {
+  if (!header) return;
+  const currentScroll = window.scrollY || document.documentElement.scrollTop;
+  header.classList.toggle("is-hidden", currentScroll > 100);
 }
 
 function updateScrollProgress() {
-    if (!scrollProgress) return;
+  let progress = document.querySelector("#scroll-progress");
+  if (!progress) {
+    progress = document.createElement("div");
+    progress.id = "scroll-progress";
+    document.body.prepend(progress);
+  }
 
-    const scrollTop = window.scrollY;
-    const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const percentage = maxHeight > 0 ? (scrollTop / maxHeight) * 100 : 0;
-
-    scrollProgress.style.width = `${percentage}%`;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const percent = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+  progress.style.width = `${percent}%`;
 }
 
-function updateActiveNavLink() {
-    const links = document.querySelectorAll("header nav a");
-    const currentPage = window.location.pathname.split("/").pop() || "index.html";
-
-    links.forEach((link) => {
-        const href = link.getAttribute("href") || "";
-        const isHome = currentPage === "index.html" || currentPage === "";
-
-        if ((isHome && href.includes("index.html")) || href.includes(currentPage)) {
-            link.classList.add("active");
-        } else {
-            link.classList.remove("active");
-        }
-    });
-}
-
-function updateCurrentYear() {
-    const yearElement = document.querySelector("#current-year");
-
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
-}
-
-function closeMobileHeader() {
-    if (menuToggle) {
-        menuToggle.setAttribute("aria-expanded", "false");
+/* ==================================================
+   11. EVENTOS DE PRODUTO
+================================================== */
+function setupProductCardEvents() {
+  document.addEventListener("click", (event) => {
+    const detailButton = event.target.closest(".product-details-btn");
+    if (detailButton) {
+      const card = detailButton.closest(".product-card");
+      if (card) openProductModal(card);
+      return;
     }
 
-    if (searchToggle) {
-        searchToggle.setAttribute("aria-expanded", "false");
+    const addButton = event.target.closest(".add-cart-btn");
+    if (addButton) {
+      const card = addButton.closest(".product-card");
+      if (card) addToCartCard(card);
     }
-
-    if (mainNav) {
-        mainNav.classList.remove("is-open");
-    }
-
-    if (searchForm) {
-        searchForm.classList.remove("is-open");
-    }
+  });
 }
 
-function setupHeaderMobileControls() {
-    if (!menuToggle || !searchToggle || !mainNav || !searchForm) return;
+/* ==================================================
+   12. INICIALIZAÇÃO
+================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  cart = getCartFromStorage();
+  updateCartCounter();
+  renderCartPage();
+  setupHeaderControls();
+  setupScrollReveal();
+  setupNewsletter();
+  updateActiveNavLink();
+  updateScrollProgress();
+  updateCurrentYear();
+  setupProductCardEvents();
+  setupCartPageEvents();
 
-    menuToggle.addEventListener("click", function () {
-        const isOpen = mainNav.classList.toggle("is-open");
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
-
-        if (isOpen) {
-            searchForm.classList.remove("is-open");
-            searchToggle.setAttribute("aria-expanded", "false");
-        }
+  if (modalAddCartButton) {
+    modalAddCartButton.addEventListener("click", () => {
+      const id = modalAddCartButton.dataset.id;
+      if (id) addToCartById(id);
+      closeProductModal();
     });
+  }
 
-    searchToggle.addEventListener("click", function () {
-        const isOpen = searchForm.classList.toggle("is-open");
-        searchToggle.setAttribute("aria-expanded", String(isOpen));
+  modalCloseButtons.forEach((button) => {
+    button.addEventListener("click", closeProductModal);
+  });
 
-        if (isOpen) {
-            mainNav.classList.add("is-open");
-            menuToggle.setAttribute("aria-expanded", "true");
-            searchInput?.focus();
-        } else {
-            mainNav.classList.remove("is-open");
-            menuToggle.setAttribute("aria-expanded", "false");
-        }
+  if (modal) {
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeProductModal();
     });
+  }
 
-    document.querySelectorAll("header .main-nav a").forEach((link) => {
-        link.addEventListener("click", function () {
-            if (window.innerWidth <= 700) {
-                closeMobileHeader();
-            }
-        });
+  if (searchForm && searchInput) {
+    searchForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      filterProducts(searchInput.value);
     });
-
-    document.addEventListener("click", function (event) {
-        if (window.innerWidth <= 700 && !event.target.closest("header")) {
-            closeMobileHeader();
-        }
-    });
-
-    window.addEventListener("resize", function () {
-        if (window.innerWidth > 700) {
-            closeMobileHeader();
-        }
-    });
-}
-
-function setupScrollReveal() {
-    const revealElements = document.querySelectorAll(
-        ".hero, .categories, .featured-products, .contact, .page-card, .page-actions, .product-card, .category-card, .contact-newsletter, .contact-info"
-    );
-
-    if (!revealElements.length) return;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.15,
-        rootMargin: "0px 0px -40px 0px"
-    });
-
-    revealElements.forEach((element, index) => {
-        element.classList.add("reveal");
-        element.style.transitionDelay = `${index * 60}ms`;
-        observer.observe(element);
-    });
-}
-
-window.addEventListener("scroll", function () {
-    toggleHeaderOnScroll();
-    updateScrollProgress();
+    searchInput.addEventListener("input", () => filterProducts(searchInput.value));
+    filterProducts("");
+  }
 });
 
-/* ========================================
-   4. FUNÇÕES DA NEWSLETTER
-======================================== */
-
-// Função para mostrar mensagens de feedback na newsletter
-// Ela recebe a mensagem e o tipo (sucesso ou erro) e atualiza o HTML
-function showNewsletterMessage(message, type) {
-    if (!newsletterMessage) return;
-
-    newsletterMessage.textContent = message;
-    newsletterMessage.className = `form-message ${type}`;
-}
-
-/* ========================================
-   4. EVENTOS DA NEWSLETTER
-======================================== */
-
-if (newsletterForm && newsletterEmail) {
-    // Quando o formulário for enviado, executa esta função
-    newsletterForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Impede o recarregamento da página
-
-        // Pega o e-mail digitado e remove espaços extras
-        const email = newsletterEmail.value.trim();
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // Valida o formato do e-mail com uma regra simples
-        if (!emailPattern.test(email)) {
-            showNewsletterMessage("Por favor, informe um e-mail válido.", "error");
-            newsletterEmail.focus();
-            return;
-        }
-
-        // Se estiver tudo certo, mostra sucesso e limpa o campo
-        showNewsletterMessage("E-mail cadastrado com sucesso!", "success");
-        newsletterForm.reset();
-    });
-}
-
-/* ========================================
-   5. FUNÇÕES DA BUSCA
-======================================== */
-
-// Função para filtrar os produtos conforme o texto digitado
-// Ela percorre todos os cards e mostra apenas os que combinam com a busca
-function filterProducts(term) {
-    if (!productCards.length) return;
-
-    let visibleCount = 0;
-
-    productCards.forEach((card) => {
-        // Junta nome, categoria e descrição em uma única string para comparar
-        const searchableText = [
-            card.dataset.name || "",
-            card.dataset.category || "",
-            card.dataset.description || ""
-        ].join(" ").toLowerCase();
-
-        const hasMatch = searchableText.includes(term);
-        card.classList.toggle("is-hidden", !hasMatch);
-
-        if (hasMatch) {
-            visibleCount += 1;
-        }
-    });
-
-    if (searchStatus) {
-        if (!term) {
-            searchStatus.textContent = "Use a busca para encontrar produtos por nome ou categoria.";
-            return;
-        }
-
-        if (visibleCount > 0) {
-            searchStatus.textContent = `Mostrando ${visibleCount} produto(s) para "${term}".`;
-        } else {
-            searchStatus.textContent = `Nenhum produto encontrado para "${term}".`;
-        }
-    }
-}
-
-/* ========================================
-   6. EVENTOS DA BUSCA
-======================================== */
-
-if (searchForm && searchInput) {
-    // Quando o formulário for enviado, filtra os produtos
-    searchForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        filterProducts(searchInput.value.trim().toLowerCase());
-    });
-
-    // Também filtra enquanto a pessoa digita
-    searchInput.addEventListener("input", function () {
-        filterProducts(searchInput.value.trim().toLowerCase());
-    });
-}
-
-/* ========================================
-   7. FUNÇÕES DO MODAL
-======================================== */
-
-// Abre o modal com as informações do produto clicado
-// O código pega os dados do card e coloca no modal
-function openProductModal(productCard) {
-    if (!modal || !modalImage || !modalTitle || !modalDescription || !modalPrice) return;
-
-    const title = productCard.dataset.name || productCard.querySelector("h4").textContent;
-    const description = productCard.dataset.description || "Produto exclusivo da coleção Charmê Boutique.";
-    const price = productCard.dataset.price || productCard.querySelector(".price").textContent;
-    const image = productCard.dataset.image || productCard.querySelector("img").src;
-
-    modalImage.src = image;
-    modalImage.alt = title;
-    modalTitle.textContent = title;
-    modalDescription.textContent = description;
-    modalPrice.textContent = price;
-
-    modal.classList.add("is-open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-}
-
-// Fecha o modal e volta a permitir rolar a página
-function closeProductModal() {
-    if (!modal) return;
-
-    modal.classList.remove("is-open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-}
-
-/* ========================================
-   8. EVENTOS DO MODAL
-======================================== */
-
-// Quando clicar em "Comprar", abre o modal do produto
-document.querySelectorAll(".product-buy-btn").forEach((button) => {
-    button.addEventListener("click", function (event) {
-        event.stopPropagation();
-
-        const productCard = button.closest(".product-card");
-        if (productCard) {
-            openProductModal(productCard);
-        }
-    });
+window.addEventListener("scroll", () => {
+  toggleHeaderOnScroll();
+  updateScrollProgress();
 });
 
-// Fecha o modal ao clicar no X, no fundo escuro ou no botão interno de compra
-closeModalButtons.forEach((button) => {
-    button.addEventListener("click", function (event) {
-        event.stopPropagation();
-        closeProductModal();
-    });
-});
-
-modalBuyButtons.forEach((button) => {
-    button.addEventListener("click", function (event) {
-        event.stopPropagation();
-        closeProductModal();
-    });
-});
-
-if (modal) {
-    // Se clicar fora do conteúdo do modal, fecha
-    modal.addEventListener("click", function (event) {
-        if (event.target === modal || event.target.classList.contains("modal-backdrop")) {
-            closeProductModal();
-        }
-    });
-}
-
-// Fecha o modal ao apertar Esc
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-        closeProductModal();
-    }
-});
-
-/* ========================================
-   9. INICIALIZAÇÃO
-======================================== */
-
-// Exibe os produtos inicialmente ao carregar a página
-filterProducts("");
-updateCurrentYear();
-updateActiveNavLink();
-updateScrollProgress();
-setupHeaderMobileControls();
-setupScrollReveal();

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
     <title>Charmê Boutique</title>
   </head>
 
   <body>
     <header class="site-header">
       <a href="index.html" class="logo" aria-label="Charmê Boutique home">
-        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image">
+        <img src="assets/logo/logo.svg" alt="Charmê Boutique" class="logo-image" />
       </a>
 
       <div class="header-actions" aria-label="Ações do cabeçalho">
@@ -25,13 +25,18 @@
         <ul>
           <li><a href="index.html">Início</a></li>
           <li><a href="produtos.html">Produtos</a></li>
-          <li><a href="sobre.html">Sobre Nós</a></li>
+          <li><a href="sobre.html">Sobre</a></li>
           <li><a href="login.html">Login</a></li>
+          <li>
+            <a href="carrinho.html">
+              🛒 Carrinho <span id="cart-counter">0</span>
+            </a>
+          </li>
         </ul>
 
         <form class="search-form" role="search">
           <label class="sr-only" for="site-search">Buscar produtos</label>
-          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off">
+          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off" />
           <button type="submit" aria-label="Buscar">🔎</button>
         </form>
       </nav>
@@ -40,23 +45,21 @@
     <main>
       <section class="hero">
         <div class="hero-content">
-          <h1>Nova Coleção Primavera 🌸</h1>
-          <p>
-            Bolsas e acessórios para mulheres que valorizam elegância e
-            praticidade.
-          </p>
-          <a href="produtos.html" class="btn">Ver Coleção</a>
+          <span class="status-pill">Nova coleção</span>
+          <h1>Descubra o charme das bolsas e acessórios exclusivos</h1>
+          <p>Peças selecionadas para você brilhar em todas as ocasiões.</p>
+          <a href="produtos.html" class="btn">Ver coleção</a>
         </div>
 
         <div class="hero-image">
-          <img src="/assets/img/bolsa-hero.png" alt="Bolsa Charmê Boutique">
+          <img src="assets/img/bolsa-hero.png" alt="Bolsa Charmê Boutique" />
         </div>
       </section>
 
       <section class="categories">
         <div class="categories-header">
-          <h2>Compre por Categoria</h2>
-          <p>Encontre os melhores produtos separados especialmente para você</p>
+          <h2>Compre por categoria</h2>
+          <p>Encontre bolsas, necessaires e acessórios com estilo.</p>
         </div>
 
         <ul class="categories-grid">
@@ -68,7 +71,7 @@
           </li>
           <li>
             <a href="produtos.html?categoria=necessaires" class="category-card">
-              <span class="category-icon">🧺</span>
+              <span class="category-icon">🎒</span>
               <span class="category-name">Necessaires</span>
             </a>
           </li>
@@ -84,45 +87,67 @@
               <span class="category-name">Maquiagens</span>
             </a>
           </li>
-          <li>
-            <a href="produtos.html?categoria=promocoes" class="category-card promotion">
-              <span class="category-icon">🎁</span>
-              <span class="category-name">Promoções</span>
-            </a>
-          </li>
         </ul>
       </section>
 
       <section class="featured-products">
-        <h3>Produtos em Destaque</h3>
+        <h3>Produtos em destaque</h3>
 
         <div class="product-grid">
-          <article class="product-card" data-name="Bolsa Mykonos" data-category="bolsas" data-description="Bolsa estruturada com acabamento sofisticado e espaço ideal para o dia a dia." data-price="R$ 199,90" data-image="/assets/img/bolsa-mykonos.png">
-            <img class="product-image" src="/assets/img/bolsa-mykonos.png" alt="Bolsa Mykonos">
+          <article class="product-card"
+            data-id="p1"
+            data-name="Bolsa Mykonos"
+            data-category="Bolsas"
+            data-description="Bolsa elegante em tecido acetinado, perfeita para o dia e a noite."
+            data-price="R$ 199,90"
+            data-image="assets/img/bolsa-mykonos.png">
+            <img class="product-image" src="assets/img/bolsa-mykonos.png" alt="Bolsa Mykonos" />
             <h4>Bolsa Mykonos</h4>
             <p class="price">R$ 199,90</p>
-            <button type="button" class="btn product-buy-btn">Comprar</button>
+            <button type="button" class="product-details-btn">Ver detalhes</button>
+            <button type="button" class="add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
-          <article class="product-card" data-name="Necessaire Paris" data-category="necessaires" data-description="Necessaire elegante com compartimentos práticos para cosméticos e pequenos objetos." data-price="R$ 89,90" data-image="/assets/img/necessaire-paris.jpg">
-            <img class="product-image" src="/assets/img/necessaire-paris.jpg" alt="Necessaire Paris">
+          <article class="product-card"
+            data-id="p2"
+            data-name="Necessaire Paris"
+            data-category="Necessaires"
+            data-description="Necessaire com compartimentos internos e acabamento premium."
+            data-price="R$ 89,90"
+            data-image="assets/img/necessaire-paris.jpg">
+            <img class="product-image" src="assets/img/necessaire-paris.jpg" alt="Necessaire Paris" />
             <h4>Necessaire Paris</h4>
             <p class="price">R$ 89,90</p>
-            <button type="button" class="btn product-buy-btn">Comprar</button>
+            <button type="button" class="product-details-btn">Ver detalhes</button>
+            <button type="button" class="add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
-          <article class="product-card" data-name="Óculos de Sol Riviera" data-category="acessorios" data-description="Óculos de sol com design clean, proteção UV e acabamento premium." data-price="R$ 149,90" data-image="/assets/img/oculos-riviera.png">
-            <img class="product-image" src="/assets/img/oculos-riviera.png" alt="Óculos de Sol Riviera">
-            <h4>Óculos de Sol Riviera</h4>
+          <article class="product-card"
+            data-id="p3"
+            data-name="Óculos Riviera"
+            data-category="Acessórios"
+            data-description="Óculos com lente UV e design moderno para looks sofisticados."
+            data-price="R$ 149,90"
+            data-image="assets/img/oculos-riviera.png">
+            <img class="product-image" src="assets/img/oculos-riviera.png" alt="Óculos Riviera" />
+            <h4>Óculos Riviera</h4>
             <p class="price">R$ 149,90</p>
-            <button type="button" class="btn product-buy-btn">Comprar</button>
+            <button type="button" class="product-details-btn">Ver detalhes</button>
+            <button type="button" class="add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
-          <article class="product-card" data-name="Kit Maquiagem Glam" data-category="maquiagens" data-description="Kit completo para looks sofisticados com produtos selecionados para todos os dias." data-price="R$ 129,90" data-image="/assets/img/kit-maquiagem-glam.png">
-            <img class="product-image" src="/assets/img/kit-maquiagem-glam.png" alt="Kit Maquiagem Glam">
+          <article class="product-card"
+            data-id="p4"
+            data-name="Kit Maquiagem Glam"
+            data-category="Maquiagens"
+            data-description="Kit completo para makes elegantes com itens selecionados."
+            data-price="R$ 129,90"
+            data-image="assets/img/kit-maquiagem-glam.png">
+            <img class="product-image" src="assets/img/kit-maquiagem-glam.png" alt="Kit Maquiagem Glam" />
             <h4>Kit Maquiagem Glam</h4>
             <p class="price">R$ 129,90</p>
-            <button type="button" class="btn product-buy-btn">Comprar</button>
+            <button type="button" class="product-details-btn">Ver detalhes</button>
+            <button type="button" class="add-cart-btn">Adicionar ao carrinho</button>
           </article>
         </div>
 
@@ -133,20 +158,19 @@
         <div class="contact-newsletter">
           <span class="contact-badge">✨ Exclusivo</span>
           <h3>Receba novidades da coleção</h3>
-          <p>Entre para ganhar acesso antecipado a lançamentos, promoções especiais e ofertas VIP da Charmê Boutique.</p>
+          <p>Cadastre-se para receber lançamentos e ofertas especiais.</p>
           <form id="newsletter-form">
-            <input id="newsletter-email" type="email" placeholder="Digite seu e-mail" required>
+            <input id="newsletter-email" type="email" placeholder="Digite seu e-mail" required />
             <button type="submit" class="btn">Assinar</button>
           </form>
           <p id="newsletter-message" class="form-message" role="status" aria-live="polite"></p>
         </div>
 
         <div class="contact-info">
-          <h4>Fale Conosco</h4>
+          <h4>Fale conosco</h4>
           <p>📧 ahirawt@gmail.com</p>
           <p>📱 (62) 9 8218-9869</p>
           <p>📍 Goiânia - GO</p>
-          <p>🕒 Atendimento Online</p>
         </div>
       </section>
     </main>
@@ -162,12 +186,12 @@
       <div class="modal-backdrop" data-close-modal></div>
       <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <button class="modal-close" type="button" aria-label="Fechar" data-close-modal>×</button>
-        <img id="modal-image" src="" alt="">
+        <img id="modal-image" src="" alt="" />
         <div class="modal-content">
           <h3 id="modal-title"></h3>
           <p id="modal-description"></p>
           <p class="modal-price" id="modal-price"></p>
-          <button type="button" class="btn modal-buy-btn">Comprar</button>
+          <button type="button" class="btn modal-buy-btn">Adicionar ao Carrinho</button>
         </div>
       </div>
     </div>

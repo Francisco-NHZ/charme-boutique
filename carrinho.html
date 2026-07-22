@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <title>Carrinho - Charmê Boutique</title>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <a href="index.html" class="logo" aria-label="Charmê Boutique home">
+        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image" />
+      </a>
+
+      <div class="header-actions" aria-label="Ações do cabeçalho">
+        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="sobre.html">Sobre Nós</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="carrinho.html" id="cart-counter">🛒 Carrinho (0)</a></li>
+        </ul>
+
+        <form class="search-form" role="search">
+          <label class="sr-only" for="site-search">Buscar produtos</label>
+          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off" />
+          <button type="submit" aria-label="Buscar">🔎</button>
+        </form>
+      </nav>
+    </header>
+
+    <main class="container cart-page">
+      <section class="cart-content">
+        <h1>Meu carrinho</h1>
+        <div id="cart-items" class="cart-items"></div>
+      </section>
+
+      <aside class="cart-summary">
+        <div class="summary-box">
+          <p>Total</p>
+          <strong id="cart-total">R$ 0,00</strong>
+        </div>
+        <a id="checkout-link" class="btn primary" href="checkout.html">Finalizar compra</a>
+        <button id="clear-cart" class="btn">Limpar carrinho</button>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <p>🌸 Charmê Boutique</p>
+        <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
+        <p>Desenvolvido por NHZ WebSolutions</p>
+        <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">
+          Francisco Almeida
+        </a>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
