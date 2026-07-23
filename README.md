@@ -1,82 +1,89 @@
 # Charmê Boutique
 
-Charmê Boutique é um projeto front-end de uma loja virtual fictícia com foco em elegância, identidade visual premium e interação simples com JavaScript.
+Projeto front-end de loja virtual fictícia com foco em identidade visual premium e interações JavaScript.
+
+## Status (atualizado)
+- Funcionalidades principais implementadas e testadas: página inicial, busca por produtos, modal de produto, carrinho simples (persistente via localStorage), resumo do carrinho e página de checkout simulada.
+- CSS e JS foram modularizados em arquivos menores, organizados por responsabilidade (ver estrutura abaixo), para facilitar manutenção e leitura do código.
 
 ## O que o projeto inclui
-
-- Página inicial com hero, categorias, produtos em destaque e newsletter
-- Busca no cabeçalho para filtrar produtos
-- Modal de produto com imagem, descrição e preço
-- Validação de e-mail na newsletter
-- Header com comportamento dinâmico ao rolar a página
-- Estilo responsivo para diferentes telas
+- index.html: página inicial com hero, categorias e produtos em destaque
+- produtos.html: lista de produtos com filtros
+- carrinho.html: visualização do carrinho e resumo de compra
+- sobre.html, login.html (template)
+- style.css: arquivo principal de estilos — só contém `@import` apontando para os módulos em `css/`
+- js/main.js: ponto de entrada do JavaScript — importa e inicializa todos os módulos em `js/`
+- assets/: imagens e logos
 
 ## Estrutura do projeto
 
-- index.html: página inicial
-- produtos.html: página de produtos
-- sobre.html: página institucional
-- login.html: página de login em construção
-- style.css: estilos e responsividade
-- script.js: interações em JavaScript
-- assets/: imagens e arquivos visuais
+```
+charme-2/
+├── index.html
+├── produtos.html
+├── carrinho.html
+├── sobre.html
+├── login.html
+├── style.css                 (importa tudo de css/)
+├── css/
+│   ├── base.css               reset, variáveis CSS (:root) e estilos gerais do body
+│   ├── buttons.css            .btn e variantes (secundário, disabled)
+│   ├── header.css             cabeçalho fixo, navegação, busca, menu mobile, barra de progresso
+│   ├── hero.css                seção hero da home e hero genérico das páginas internas (page-hero)
+│   ├── categories.css         grid de categorias da home
+│   ├── products.css           grid de produtos, cards e botões dos cards
+│   ├── contact.css            seção de contato, newsletter e status de busca
+│   ├── modal.css              modal de detalhes do produto
+│   ├── cart.css                página carrinho.html (itens, resumo, carrinho vazio)
+│   └── footer.css             rodapé
+├── js/
+│   ├── main.js                 único arquivo referenciado no HTML — importa e inicializa os demais
+│   ├── utils.js                 parsePrice, formatCurrency, CART_KEY
+│   ├── cart.js                  estado do carrinho, localStorage, renderização da página do carrinho
+│   ├── modal.js                 abrir/fechar modal de produto + cliques nos botões dos cards
+│   ├── search.js                filtro de produtos (busca por nome/categoria/descrição)
+│   ├── header.js                 menu mobile, toggle de busca, header some ao rolar, link ativo
+│   ├── newsletter.js            validação e feedback do formulário de newsletter
+│   └── scrollReveal.js          animação de revelação de elementos ao rolar a página
+└── assets/
+    └── (imagens e logos)
+```
 
-## Como abrir o projeto
+## Novas implementações / observações
+- Carrinho persistente em localStorage (chave: `cart`).
+- Contador do carrinho atualiza seja como `<span id="cart-counter">0</span>` ou como link inteiro com `id="cart-counter"`.
+- Modal de produto abre por delegação de eventos nas classes `.product-details-btn` e fecha ao clicar no backdrop, no botão com `data-close-modal` ou pressionar Esc (via `data-close-modal`, sem listener de teclado ainda — ver "Próximos passos").
+- Barra de progresso de scroll (#scroll-progress) criada dinamicamente pelo JS (em `js/header.js`).
+- JS organizado em **módulos ES** (`import`/`export`). Isso exige que o site seja aberto via servidor local (`http://`), não direto pelo `file://`.
+- CSS organizado com `@import` dentro de `style.css`, que é o único arquivo referenciado no `<head>` de cada página.
 
-Você pode abrir qualquer arquivo HTML diretamente no navegador, por exemplo:
+## Como executar
+- **Não** abrir `index.html` direto pelo navegador (módulos ES não funcionam com `file://`).
+- Recomendado: usar Live Server (VS Code) para reload automático:
+  - Instale a extensão Live Server
+  - Clique com o botão direito em `index.html` > "Open with Live Server"
 
-- index.html
+## Como testar rapidamente
+- Abrir página inicial
+- Clicar em "Ver detalhes" em qualquer card de produto (modal deve abrir)
+- Clicar em "Adicionar ao carrinho" para incrementar o contador
+- Abrir `carrinho.html` para ver itens, alterar quantidades e remover itens
+- Verificar footer e ano automático (elemento `#current-year`)
+- Abrir o console do navegador (F12): se algo quebrar, o erro agora aponta para o arquivo `.js` exato, o que facilita bastante o debug
 
-Ou usar uma extensão como Live Server no VS Code para ter um ambiente mais prático.
+## Dicas de manutenção
+- Manter os atributos data-* nos product-cards: `data-id`, `data-name`, `data-price`, `data-description`, `data-image`.
+- Se o modal não abrir: verificar se elementos do modal (`#product-modal`, `#modal-image`, `#modal-title`, etc.) existem no HTML e se `css/modal.css` está sendo importado em `style.css`.
+- Para internacionalização de moeda, ajustar `formatCurrency()` em `js/utils.js`.
+- Para adicionar uma nova seção de estilos: criar um novo arquivo em `css/` e adicionar a linha `@import url("css/novo-arquivo.css");` em `style.css`.
+- Para adicionar uma nova funcionalidade JS: criar um novo módulo em `js/`, exportar as funções necessárias e importá-las em `js/main.js`.
 
-## O que aprender com este projeto
+## Próximos passos sugeridos
+- Implementar carrinho remoto (API)
+- Persistir sessão do usuário / login
+- Testes unitários para funções utilitárias (`js/utils.js` é um bom ponto de partida por não depender do DOM)
+- Melhor acessibilidade do modal (focus trap + fechar com tecla Esc)
+- Completar produtos.html com os cards de produto reais (hoje é uma página "em breve")
 
-Este projeto é ótimo para estudar:
-
-- HTML semântico
-- CSS com variáveis e responsividade
-- JavaScript básico
-- Seleção de elementos no DOM
-- Eventos de clique e submit
-- Manipulação de classes e texto
-- Filtragem de dados em listas
-- Criação de modal interativo
-
-## Explicação do JavaScript
-
-O arquivo script.js foi organizado em blocos para facilitar o estudo:
-
-1. Seleção de elementos
-   - Captura formulários, botões, cards e modal
-
-2. Funções do header
-   - Controla a visibilidade do header ao rolar a página
-   - Cria a barra de progresso no topo
-
-3. Newsletter
-   - Valida o e-mail digitado
-   - Mostra mensagens de sucesso ou erro
-   - Limpa o campo após o envio
-
-4. Busca
-   - Filtra os cards de produtos de acordo com o texto digitado
-   - Exibe mensagens de resultado
-
-5. Modal de produto
-   - Abre uma janela com informações do produto clicado
-   - Fecha ao clicar no X, no fundo escuro ou ao pressionar Esc
-
-6. Inicialização
-   - Atualiza o ano no rodapé
-   - Marca o link ativo da navegação
-   - Aplica efeitos de entrada conforme a página é rolada
-
-## Próximos passos
-
-Você pode expandir o projeto com:
-
-- carrinho de compras
-- checkout simples
-- filtro por categoria
-- animações mais sofisticadas
-- integração com banco de dados ou API
+## Contato
+Desenvolvido por NHZ WebSolutions — Francisco Almeida

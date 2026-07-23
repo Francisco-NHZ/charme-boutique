@@ -1,0 +1,60 @@
+/* ========================================
+   BOTÕES
+======================================== */
+
+.btn,
+.search-form button,
+#newsletter-form button {
+    display: inline-block;
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--cor-secundaria);
+    color: var(--cor-branca);
+    border: none;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.btn:hover,
+.search-form button:hover,
+#newsletter-form button:hover {
+    background-color: var(--cor-dourado);
+    color: var(--cor-principal);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--cor-principal);
+    border: 1px solid var(--cor-borda);
+    box-shadow: none;
+}
+
+.btn-secondary:hover {
+    background: var(--cor-principal);
+    color: var(--cor-branca);
+}
+
+.btn.disabled,
+.btn[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+    background: #ccc;
+    color: #666;
+}
+
+#newsletter-form button {
+    padding: 16px 30px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+    #newsletter-form button,
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
