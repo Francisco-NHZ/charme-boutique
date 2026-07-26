@@ -1,21 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Login | Charmê Boutique</title>
   </head>
 
   <body>
     <header class="site-header">
       <a href="index.html" class="logo" aria-label="Charmê Boutique home">
-        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image">
+        <img
+          src="assets/logo/logo.svg"
+          alt="Logo Charmê Boutique"
+          class="logo-image"
+        />
       </a>
 
       <div class="header-actions" aria-label="Ações do cabeçalho">
-        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
-        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+        <button
+          class="search-toggle"
+          type="button"
+          aria-label="Abrir busca"
+          aria-expanded="false"
+        >
+          🔎
+        </button>
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
       </div>
 
       <nav class="main-nav">
@@ -24,12 +42,21 @@
           <li><a href="produtos.html">Produtos</a></li>
           <li><a href="sobre.html">Sobre Nós</a></li>
           <li><a href="login.html">Login</a></li>
-          <li><a href="carrinho.html" id="cart-counter">🛒 Carrinho (0)</a></li>
+          <li>
+            <a href="carrinho.html">
+              🛒 Carrinho <span id="cart-counter">0</span>
+            </a>
+          </li>
         </ul>
 
         <form class="search-form" role="search">
           <label class="sr-only" for="site-search">Buscar produtos</label>
-          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off">
+          <input
+            id="site-search"
+            type="text"
+            placeholder="Buscar produtos..."
+            autocomplete="off"
+          />
           <button type="submit" aria-label="Buscar">🔎</button>
         </form>
       </nav>
@@ -38,24 +65,51 @@
     <main>
       <section class="hero page-hero">
         <div class="hero-content">
-          <span class="status-pill">Em breve</span>
-          <h1>A área de login será liberada em breve</h1>
+          <span class="status-pill">Acesse sua conta</span>
+          <h1>Bem-vindo de volta à Charmê</h1>
           <p>
-            Logo você poderá entrar para acompanhar pedidos, salvar favoritos e receber novidades exclusivas da coleção.
+            Entre com seus dados para acompanhar pedidos, salvar favoritos e
+            gerenciar suas compras com facilidade.
           </p>
-          <div class="page-actions">
-            <a href="index.html" class="btn">Voltar ao início</a>
-            <a href="index.html#contact" class="btn btn-secondary">Falar com a equipe</a>
-          </div>
+
+          <!-- Formulário funcional de login utilizando o estilo padrão -->
+          <form
+            class="page-actions"
+            style="flex-direction: column; gap: 15px; align-items: stretch"
+            onsubmit="
+              event.preventDefault();
+              alert('Login efetuado com sucesso!');
+            "
+          >
+            <input
+              type="email"
+              placeholder="Seu e-mail"
+              required
+              style="padding: 12px; border-radius: 8px; border: 1px solid #ddd"
+            />
+            <input
+              type="password"
+              placeholder="Sua senha"
+              required
+              style="padding: 12px; border-radius: 8px; border: 1px solid #ddd"
+            />
+            <button type="submit" class="btn">Entrar</button>
+            <a
+              href="index.html"
+              class="btn btn-secondary"
+              style="text-align: center"
+              >Voltar ao início</a
+            >
+          </form>
         </div>
 
         <div class="hero-image">
           <div class="page-card">
-            <h3>Em breve você poderá</h3>
+            <h3>Vantagens da conta</h3>
             <ul class="page-list">
-              <li>Acessar sua conta com segurança</li>
-              <li>Salvar itens favoritos</li>
-              <li>Receber ofertas exclusivas</li>
+              <li>Acompanhamento de entregas em tempo real</li>
+              <li>Histórico completo de pedidos</li>
+              <li>Acesso antecipado a lançamentos e promoções</li>
             </ul>
           </div>
         </div>
@@ -64,9 +118,16 @@
 
     <footer>
       <p>🌸 Charmê Boutique</p>
-      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
+      <p>
+        &copy; <span id="current-year"></span> Todos os direitos reservados.
+      </p>
       <p>Desenvolvido por NHZ WebSolutions</p>
-      <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
+      <a
+        href="https://www.linkedin.com/in/nhzfrancisco/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Francisco Almeida</a
+      >
     </footer>
 
     <script type="module" src="js/main.js"></script>

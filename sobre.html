@@ -1,21 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Sobre Nós | Charmê Boutique</title>
   </head>
 
   <body>
     <header class="site-header">
       <a href="index.html" class="logo" aria-label="Charmê Boutique home">
-        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image">
+        <img
+          src="assets/logo/logo.svg"
+          alt="Logo Charmê Boutique"
+          class="logo-image"
+        />
       </a>
 
       <div class="header-actions" aria-label="Ações do cabeçalho">
-        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
-        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+        <button
+          class="search-toggle"
+          type="button"
+          aria-label="Abrir busca"
+          aria-expanded="false"
+        >
+          🔎
+        </button>
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
       </div>
 
       <nav class="main-nav">
@@ -24,12 +42,21 @@
           <li><a href="produtos.html">Produtos</a></li>
           <li><a href="sobre.html">Sobre Nós</a></li>
           <li><a href="login.html">Login</a></li>
-          <li><a href="carrinho.html" id="cart-counter">🛒 Carrinho (0)</a></li>
+          <li>
+            <a href="carrinho.html">
+              🛒 Carrinho <span id="cart-counter">0</span>
+            </a>
+          </li>
         </ul>
 
         <form class="search-form" role="search">
           <label class="sr-only" for="site-search">Buscar produtos</label>
-          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off">
+          <input
+            id="site-search"
+            type="text"
+            placeholder="Buscar produtos..."
+            autocomplete="off"
+          />
           <button type="submit" aria-label="Buscar">🔎</button>
         </form>
       </nav>
@@ -39,9 +66,11 @@
       <section class="hero page-hero">
         <div class="hero-content">
           <span class="status-pill">Nossa essência</span>
-          <h1>A história da Charmê Boutique está sendo organizada</h1>
+          <h1>A história da Charmê Boutique</h1>
           <p>
-            Em breve, você poderá conhecer com mais profundidade a nossa proposta, nossos valores e o cuidado que colocamos em cada detalhe da marca.
+            Nascida do desejo de unir sofisticação, praticidade e personalidade,
+            a Charmê Boutique oferece acessórios e bolsas pensados para
+            acompanhar você em todos os momentos com elegância marcante.
           </p>
           <div class="page-actions">
             <a href="index.html" class="btn">Voltar ao início</a>
@@ -51,11 +80,11 @@
 
         <div class="hero-image">
           <div class="page-card">
-            <h3>O que você encontrará</h3>
+            <h3>Nossos Pilares</h3>
             <ul class="page-list">
-              <li>Uma marca com identidade elegante</li>
-              <li>Peças pensadas para o dia a dia</li>
-              <li>Atendimento com atenção e personalidade</li>
+              <li>Identidade elegante e autêntica</li>
+              <li>Peças com alto padrão de acabamento</li>
+              <li>Atendimento humanizado e personalizado</li>
             </ul>
           </div>
         </div>
@@ -64,9 +93,16 @@
 
     <footer>
       <p>🌸 Charmê Boutique</p>
-      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
+      <p>
+        &copy; <span id="current-year"></span> Todos os direitos reservados.
+      </p>
       <p>Desenvolvido por NHZ WebSolutions</p>
-      <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
+      <a
+        href="https://www.linkedin.com/in/nhzfrancisco/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Francisco Almeida</a
+      >
     </footer>
 
     <script type="module" src="js/main.js"></script>

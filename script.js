@@ -18,7 +18,9 @@ const modalTitle = document.querySelector("#modal-title");
 const modalDescription = document.querySelector("#modal-description");
 const modalPrice = document.querySelector("#modal-price");
 const modalCloseButtons = document.querySelectorAll("[data-close-modal]");
-const modalAddCartButton = document.querySelector(".modal-add-cart-btn, .modal-buy-btn");
+const modalAddCartButton = document.querySelector(
+  ".modal-add-cart-btn, .modal-buy-btn",
+);
 
 const cartCounter = document.querySelector("#cart-counter");
 const currentYearElement = document.querySelector("#current-year");
@@ -67,7 +69,10 @@ function saveCart() {
 ================================================== */
 function updateCartCounter() {
   if (!cartCounter) return;
-  const totalItems = cart.reduce((sum, item) => sum + (item.quantidade || 0), 0);
+  const totalItems = cart.reduce(
+    (sum, item) => sum + (item.quantidade || 0),
+    0,
+  );
 
   if (cartCounter.tagName === "SPAN") {
     cartCounter.textContent = totalItems;
@@ -91,7 +96,7 @@ function addToCartCard(card) {
       nome: card.dataset.name || "",
       preco: price,
       imagem: card.dataset.image || "",
-      quantidade: 1
+      quantidade: 1,
     });
   }
 
@@ -99,7 +104,9 @@ function addToCartCard(card) {
 }
 
 function addToCartById(productId) {
-  const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
+  const productCard = document.querySelector(
+    `.product-card[data-id="${productId}"]`,
+  );
   if (productCard) {
     addToCartCard(productCard);
   }
@@ -108,7 +115,7 @@ function addToCartById(productId) {
 function calculateCartTotal() {
   return cart.reduce(
     (sum, item) => sum + parsePrice(item.preco) * (item.quantidade || 0),
-    0
+    0,
   );
 }
 
@@ -150,7 +157,8 @@ function renderCartPage() {
   }
 
   cartItemsContainer.innerHTML = cart
-    .map((item) => `
+    .map(
+      (item) => `
       <article class="cart-item">
         <img src="${item.imagem}" alt="${item.nome}" />
         <div class="cart-item-info">
@@ -172,7 +180,8 @@ function renderCartPage() {
           </button>
         </div>
       </article>
-    `)
+    `,
+    )
     .join("");
 
   if (cartTotalElement) {
@@ -248,8 +257,10 @@ function filterProducts(term) {
     const text = [
       card.dataset.name,
       card.dataset.category,
-      card.dataset.description
-    ].join(" ").toLowerCase();
+      card.dataset.description,
+    ]
+      .join(" ")
+      .toLowerCase();
 
     const visible = !normalizedTerm || text.includes(normalizedTerm);
     card.classList.toggle("is-hidden", !visible);
@@ -259,7 +270,8 @@ function filterProducts(term) {
   if (!searchStatus) return;
 
   if (!normalizedTerm) {
-    searchStatus.textContent = "Use a busca para encontrar produtos por nome ou categoria.";
+    searchStatus.textContent =
+      "Use a busca para encontrar produtos por nome ou categoria.";
   } else if (visibleCount > 0) {
     searchStatus.textContent = `Mostrando ${visibleCount} produto(s) para "${term}".`;
   } else {
@@ -272,7 +284,7 @@ function filterProducts(term) {
 ================================================== */
 function setupScrollReveal() {
   const revealElements = document.querySelectorAll(
-    ".hero, .categories, .featured-products, .contact, .product-card, .category-card, .contact-newsletter"
+    ".hero, .categories, .featured-products, .contact, .product-card, .category-card, .contact-newsletter",
   );
 
   if (!revealElements.length) return;
@@ -294,7 +306,7 @@ function setupScrollReveal() {
         observerInstance.unobserve(target);
       });
     },
-    { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+    { threshold: 0.15, rootMargin: "0px 0px -80px 0px" },
   );
 
   revealElements.forEach((element) => observer.observe(element));
@@ -309,7 +321,10 @@ function updateActiveNavLink() {
 
   links.forEach((link) => {
     const href = link.getAttribute("href");
-    link.classList.toggle("active", href === currentPage || (currentPage === "" && href === "index.html"));
+    link.classList.toggle(
+      "active",
+      href === currentPage || (currentPage === "" && href === "index.html"),
+    );
   });
 }
 
@@ -467,7 +482,9 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       filterProducts(searchInput.value);
     });
-    searchInput.addEventListener("input", () => filterProducts(searchInput.value));
+    searchInput.addEventListener("input", () =>
+      filterProducts(searchInput.value),
+    );
     filterProducts("");
   }
 });
@@ -476,4 +493,3 @@ window.addEventListener("scroll", () => {
   toggleHeaderOnScroll();
   updateScrollProgress();
 });
-
