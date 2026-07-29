@@ -1,39 +1,51 @@
-// Tudo relacionado ao carrinho: estado em memória, localStorage e a
-// renderização da página carrinho.html.
+/* ====================================================================
+   cart.js — estado do carrinho, renderização e eventos da página
+   /carrinho.html
+   ---------------------------------------------------------------
+   Este módulo é o "dono" do estado do carrinho em memória (a variável
+   `cart` abaixo). Outros módulos (checkout.js, products.js, header.js)
+   só devem ler/alterar o carrinho através das funções exportadas aqui
+   — nunca mexendo direto no array. Isso garante que qualquer alteração
+   sempre passe por saveCart() (que persiste e notifica quem estiver
+   "ouvindo" a mudança, ex.: o contador do header).
+==================================================================== */
 
-import { CART_KEY, parsePrice, formatCurrency } from "./utils.js";
+import { parsePrice, formatCurrency, escapeHTML } from "./utils.js";
+import { loadCart, persistCart } from "./storage.js";
+import { APP_CONFIG } from "./config.js";
 
-const cartCounter = document.querySelector("#cart-counter");
-const cartItemsContainer = document.querySelector("#cart-items");
-const cartTotalElement = document.querySelector("#cart-total");
-const clearCartButton = document.querySelector("#clear-cart");
-const checkoutLink = document.querySelector("#checkout-link");
+let cart = [];
 
-// Estado do carrinho em memória (sincronizado com o localStorage).
-export let cart = [];
+// Pequeno "pub/sub": qualquer parte do app pode reagir a mudanças no
+// carrinho sem precisar conhecer cart.js por dentro (ex.: o resumo do
+// checkout, em checkout.js, se re-renderiza sozinho quando o carrinho
+// muda).
+const listeners = new Set();
 
-function getCartFromStorage() {
-  try {
-    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
-  } catch {
-    return [];
-  }
+export function onCartChange(callback) {
+  listeners.add(callback);
 }
 
-export function saveCart() {
-  localStorage.setItem(CART_KEY, JSON.stringify(cart));
-  updateCartCounter();
+function notifyChange() {
+  listeners.forEach((callback) => callback(cart));
 }
 
-export function updateCartCounter() {
-  if (!cartCounter) return;
-  const totalItems = cart.reduce((sum, item) => sum + (item.quantidade || 0), 0);
+export function initCart() {
+  cart = loadCart();
+  return cart;
+}
 
-  if (cartCounter.tagName === "SPAN") {
-    cartCounter.textContent = totalItems;
-  } else {
-    cartCounter.textContent = `🛒 Carrinho (${totalItems})`;
-  }
+export function getCart() {
+  return cart;
+}
+
+function saveCart() {
+  persistCart(cart);
+  notifyChange();
+}
+
+export function calculateCartTotal() {
+  return cart.reduce((sum, item) => sum + parsePrice(item.preco) * (item.quantidade || 0), 0);
 }
 
 export function addToCartCard(card) {
@@ -44,7 +56,10 @@ export function addToCartCard(card) {
   const price = parsePrice(card.dataset.price);
 
   if (existingItem) {
-    existingItem.quantidade = (existingItem.quantidade || 0) + 1;
+    existingItem.quantidade = Math.min(
+      APP_CONFIG.CART.MAX_ITEM_QUANTITY,
+      (existingItem.quantidade || 0) + 1
+    );
   } else {
     cart.push({
       id: productId,
@@ -56,37 +71,75 @@ export function addToCartCard(card) {
   }
 
   saveCart();
+  renderCartPage();
+  showAddedToCartFeedback(card);
 }
 
 export function addToCartById(productId) {
   const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
-  if (productCard) {
-    addToCartCard(productCard);
-  }
+  if (productCard) addToCartCard(productCard);
 }
 
-function calculateCartTotal() {
-  return cart.reduce(
-    (sum, item) => sum + parsePrice(item.preco) * (item.quantidade || 0),
-    0
-  );
+// Pequeno feedback visual (não bloqueante) ao adicionar um item.
+function showAddedToCartFeedback(card) {
+  const button = card.querySelector(".add-cart-btn");
+  if (!button) return;
+  const original = button.textContent;
+  button.textContent = "Adicionado ✓";
+  button.disabled = true;
+  setTimeout(() => {
+    button.textContent = original;
+    button.disabled = false;
+  }, 900);
 }
 
-function setCartItemQuantity(productId, quantity) {
+export function setCartItemQuantity(productId, quantity) {
   const item = cart.find((entry) => entry.id === productId);
   if (!item) return;
-  item.quantidade = Math.max(1, Number(quantity) || 1);
+  // Limita quantidade entre 1 e o máximo configurado, para evitar
+  // valores absurdos digitados manualmente no campo.
+  const safeQuantity = Math.min(
+    APP_CONFIG.CART.MAX_ITEM_QUANTITY,
+    Math.max(1, Number(quantity) || 1)
+  );
+  item.quantidade = safeQuantity;
   saveCart();
   renderCartPage();
 }
 
-function removeCartItem(productId) {
+export function removeCartItem(productId) {
   cart = cart.filter((item) => item.id !== productId);
   saveCart();
   renderCartPage();
 }
 
+export function clearCart() {
+  cart = [];
+  saveCart();
+  renderCartPage();
+}
+
+/* ==================================================
+   RENDERIZAÇÃO — só roda em páginas que têm os elementos abaixo
+================================================== */
+const cartCounterLink = document.querySelector("#cart-counter");
+const cartCountBadge = document.querySelector("#cart-count");
+const cartItemsContainer = document.querySelector("#cart-items");
+const cartTotalElement = document.querySelector("#cart-total");
+const clearCartButton = document.querySelector("#clear-cart");
+const checkoutLink = document.querySelector("#checkout-link");
+
+export function updateCartCounter() {
+  if (!cartCountBadge) return;
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantidade || 0), 0);
+  cartCountBadge.textContent = totalItems;
+  if (cartCounterLink) {
+    cartCounterLink.setAttribute("aria-label", `Carrinho, ${totalItems} item(ns)`);
+  }
+}
+
 export function renderCartPage() {
+  updateCartCounter();
   if (!cartItemsContainer) return;
 
   if (!cart.length) {
@@ -109,26 +162,32 @@ export function renderCartPage() {
     checkoutLink.removeAttribute("aria-disabled");
   }
 
+  // Observação de segurança: escapeHTML() em tudo que veio de "fora"
+  // (mesmo que hoje só venha de data-attributes do próprio site) para
+  // manter o hábito de nunca confiar cegamente em string interpolada
+  // dentro de innerHTML — importante especialmente quando um backend
+  // real passar a alimentar esses dados.
   cartItemsContainer.innerHTML = cart
     .map(
       (item) => `
       <article class="cart-item">
-        <img src="${item.imagem}" alt="${item.nome}" />
+        <img src="${escapeHTML(item.imagem)}" alt="${escapeHTML(item.nome)}" />
         <div class="cart-item-info">
-          <h2>${item.nome}</h2>
+          <h2>${escapeHTML(item.nome)}</h2>
           <p class="item-price">${formatCurrency(parsePrice(item.preco))}</p>
           <label>
             Quantidade
             <input
               type="number"
               min="1"
+              max="${APP_CONFIG.CART.MAX_ITEM_QUANTITY}"
               value="${item.quantidade}"
-              data-id="${item.id}"
+              data-id="${escapeHTML(item.id)}"
               class="cart-item-qty"
             />
           </label>
           <p class="item-subtotal">${formatCurrency(parsePrice(item.preco) * item.quantidade)}</p>
-          <button type="button" class="btn cart-item-remove" data-id="${item.id}">
+          <button type="button" class="btn cart-item-remove" data-id="${escapeHTML(item.id)}">
             Remover
           </button>
         </div>
@@ -154,23 +213,15 @@ export function setupCartPageEvents() {
   cartItemsContainer.addEventListener("click", (event) => {
     const button = event.target.closest(".cart-item-remove");
     if (!button) return;
-    const productId = button.dataset.id;
-    removeCartItem(productId);
+    removeCartItem(button.dataset.id);
   });
 
   if (clearCartButton) {
     clearCartButton.addEventListener("click", () => {
-      cart = [];
-      saveCart();
-      renderCartPage();
+      if (!cart.length) return;
+      const confirmClear = confirm("Tem certeza que deseja esvaziar o carrinho?");
+      if (!confirmClear) return;
+      clearCart();
     });
   }
-}
-
-// Ponto de entrada: carrega o carrinho salvo e prepara a página.
-export function initCart() {
-  cart = getCartFromStorage();
-  updateCartCounter();
-  renderCartPage();
-  setupCartPageEvents();
 }

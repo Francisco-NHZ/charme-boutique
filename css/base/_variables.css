@@ -1,0 +1,57 @@
+/* ========================================================
+   VARIÁVEIS GLOBAIS
+   Única fonte de verdade para cores, espaçamentos, raios e
+   sombras. Se um dia a identidade visual mudar, é aqui (e só
+   aqui) que se mexe.
+======================================================== */
+:root {
+    /* Cores da marca */
+    --cor-principal: #000000;
+    --cor-secundaria: #F73294;
+    --cor-dourado: #D4AF37;
+    --cor-fundo: #FFFFFF;
+    --cor-texto: #333333;
+    --cor-branca: #FFFFFF;
+    --cor-borda: #dddddd;
+
+    /* Aliases usados em componentes mais novos (carrinho/checkout) —
+       mantidos por compatibilidade com o CSS original */
+    --card: #ffffff;
+    --accent: #f73294;
+    --accent-dark: #b8277a;
+
+    /* Cor de apoio para estados de erro/sucesso/alerta, centralizada
+       aqui para não duplicar valores hexadecimais soltos pelo CSS */
+    --cor-erro: #c0392b;
+    --cor-sucesso: #0f8a4b;
+    --cor-alerta: #d4ac0d;
+
+    /* Tipografia */
+    --font-title: 'Playfair Display', serif;
+    --font-body: 'Poppins', sans-serif;
+
+    /* Raios */
+    --radius-sm: 10px;
+    --radius-md: 15px;
+    --radius-lg: 16px;
+    --radius: 18px;
+
+    /* Sombras */
+    --shadow-sm: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+    /* Transições */
+    --transition: 0.3s ease;
+
+    /* Espaçamentos */
+    --space-sm: 12px;
+    --space-md: 20px;
+    --space-lg: 40px;
+
+    /* Layout */
+    --max-width: 1200px;
+
+    /* Acessibilidade: anel de foco visível e consistente em toda a
+       aplicação (navegação por teclado/leitor de tela) */
+    --focus-ring: 0 0 0 3px rgba(247, 50, 148, 0.16);
+}

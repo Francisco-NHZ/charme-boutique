@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self';">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Finalizar compra | Charmê Boutique</title>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <a href="index.html" class="logo" aria-label="Charmê Boutique home">
+        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image">
+      </a>
+
+      <div class="header-actions" aria-label="Ações do cabeçalho">
+        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="sobre.html">Sobre Nós</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li>
+            <a href="carrinho.html" id="cart-counter" aria-label="Carrinho, 0 itens">
+              🛒 Carrinho <span id="cart-count">0</span>
+            </a>
+          </li>
+        </ul>
+
+        <form class="search-form" role="search">
+          <label class="sr-only" for="site-search">Buscar produtos</label>
+          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off">
+          <button type="submit" aria-label="Buscar">🔎</button>
+        </form>
+      </nav>
+    </header>
+
+    <!--
+      CHECKOUT — 100% LOCAL E SIMULADO
+      ---------------------------------------------------------------
+      Esta página NÃO envia nenhum dado para fora do seu navegador.
+      Todas as validações (CPF, CEP, telefone, número de cartão via
+      algoritmo de Luhn, validade, CVV) acontecem em js/checkout.js.
+      Ao confirmar o pedido:
+        1) validamos todos os campos;
+        2) "processamos o pagamento" (só simulado, nada é cobrado);
+        3) salvamos o pedido em localStorage (via js/storage.js);
+        4) esvaziamos o carrinho e mostramos a confirmação.
+      Use qualquer CPF e número de cartão VÁLIDOS matematicamente (o
+      algoritmo de Luhn) para testar — por exemplo, o cartão de teste
+      4111 1111 1111 1111 é um número clássico usado só para validação
+      de formato, sem nenhuma ligação com uma conta real.
+
+      Os atributos maxlength abaixo são só uma camada extra de defesa
+      (impedem colar um texto absurdamente longo no campo antes mesmo
+      da validação por regex rodar) — nunca substituem a validação real.
+    -->
+    <main class="container cart-page checkout-page">
+      <section class="cart-content">
+        <h1>Finalizar compra</h1>
+
+        <form id="checkout-form" novalidate>
+          <fieldset>
+            <legend>Dados pessoais</legend>
+
+            <div class="form-group">
+              <label for="checkout-name">Nome completo</label>
+              <input type="text" id="checkout-name" name="name" autocomplete="name" maxlength="120" required>
+              <p class="field-error" id="checkout-name-error" role="alert"></p>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="checkout-cpf">CPF</label>
+                <input type="text" id="checkout-cpf" name="cpf" placeholder="000.000.000-00" autocomplete="off" inputmode="numeric" maxlength="14" required>
+                <p class="field-error" id="checkout-cpf-error" role="alert"></p>
+              </div>
+
+              <div class="form-group">
+                <label for="checkout-phone">Telefone</label>
+                <input type="tel" id="checkout-phone" name="phone" placeholder="(62) 98218-9869" autocomplete="tel" maxlength="16" required>
+                <p class="field-error" id="checkout-phone-error" role="alert"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="checkout-email">E-mail</label>
+              <input type="email" id="checkout-email" name="email" autocomplete="email" maxlength="180" required>
+              <p class="field-error" id="checkout-email-error" role="alert"></p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Endereço de entrega</legend>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="checkout-cep">CEP</label>
+                <input type="text" id="checkout-cep" name="cep" placeholder="74000-000" autocomplete="postal-code" inputmode="numeric" maxlength="9" required>
+                <p class="field-error" id="checkout-cep-error" role="alert"></p>
+              </div>
+
+              <div class="form-group">
+                <label for="checkout-state">Estado (UF)</label>
+                <input type="text" id="checkout-state" name="state" placeholder="GO" maxlength="2" autocomplete="address-level1" required>
+                <p class="field-error" id="checkout-state-error" role="alert"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="checkout-street">Rua / Avenida</label>
+              <input type="text" id="checkout-street" name="street" autocomplete="address-line1" maxlength="150" required>
+              <p class="field-error" id="checkout-street-error" role="alert"></p>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="checkout-number">Número</label>
+                <input type="text" id="checkout-number" name="number" autocomplete="off" maxlength="10" required>
+                <p class="field-error" id="checkout-number-error" role="alert"></p>
+              </div>
+
+              <div class="form-group">
+                <label for="checkout-city">Cidade</label>
+                <input type="text" id="checkout-city" name="city" autocomplete="address-level2" maxlength="100" required>
+                <p class="field-error" id="checkout-city-error" role="alert"></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Forma de pagamento</legend>
+
+            <div class="payment-methods" role="radiogroup" aria-label="Forma de pagamento">
+              <label class="payment-option">
+                <input type="radio" name="payment-method" value="cartao" checked>
+                💳 Cartão de crédito
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="payment-method" value="pix">
+                ⚡ Pix (aprovação simulada instantânea)
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="payment-method" value="boleto">
+                🧾 Boleto (compensação simulada)
+              </label>
+            </div>
+
+            <div id="card-fields">
+              <div class="form-group">
+                <label for="card-number">Número do cartão</label>
+                <input type="text" id="card-number" name="cardNumber" inputmode="numeric" placeholder="0000 0000 0000 0000" autocomplete="cc-number" maxlength="23">
+                <p class="card-brand-hint">Use qualquer número válido pelo algoritmo de Luhn, ex.: 4111 1111 1111 1111 (número de teste).</p>
+                <p class="field-error" id="card-number-error" role="alert"></p>
+              </div>
+
+              <div class="form-group">
+                <label for="card-name">Nome impresso no cartão</label>
+                <input type="text" id="card-name" name="cardName" autocomplete="cc-name" maxlength="120">
+                <p class="field-error" id="card-name-error" role="alert"></p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="card-expiry">Validade (MM/AA)</label>
+                  <input type="text" id="card-expiry" name="cardExpiry" placeholder="12/29" autocomplete="cc-exp" maxlength="5">
+                  <p class="field-error" id="card-expiry-error" role="alert"></p>
+                </div>
+
+                <div class="form-group">
+                  <label for="card-cvv">CVV</label>
+                  <input type="text" id="card-cvv" name="cardCvv" inputmode="numeric" placeholder="123" autocomplete="cc-csc" maxlength="4">
+                  <p class="field-error" id="card-cvv-error" role="alert"></p>
+                </div>
+              </div>
+            </div>
+
+            <p class="secure-note">🔒 Simulação local: nenhum dado de cartão é enviado pela rede. Em produção, isso deve passar por um gateway de pagamento certificado (PCI-DSS).</p>
+          </fieldset>
+
+          <button type="submit" class="btn primary">Confirmar pedido</button>
+          <p class="form-message" id="checkout-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <aside class="cart-summary" id="checkout-summary">
+        <h2>Resumo do pedido</h2>
+        <div id="checkout-items"></div>
+        <div class="summary-box">
+          <p>Total</p>
+          <strong id="checkout-total">R$ 0,00</strong>
+        </div>
+        <a href="carrinho.html" class="btn btn-secondary">Editar carrinho</a>
+      </aside>
+
+      <!-- Exibida via JS após o envio do formulário com sucesso -->
+      <section class="cart-content order-confirmation is-hidden" id="order-confirmation">
+        <h1>Pedido confirmado! 🎉</h1>
+        <p>Número do pedido: <strong id="order-id"></strong></p>
+        <div id="order-summary-final"></div>
+        <a href="produtos.html" class="btn">Continuar comprando</a>
+      </section>
+    </main>
+
+    <footer>
+      <p>🌸 Charmê Boutique</p>
+      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
+      <p>Desenvolvido por NHZ WebSolutions</p>
+      <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

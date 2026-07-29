@@ -3,10 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Content-Security-Policy: ver comentário completo em produtos.html -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self';">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Carrinho - Charmê Boutique</title>
   </head>
 
@@ -27,7 +29,11 @@
           <li><a href="produtos.html">Produtos</a></li>
           <li><a href="sobre.html">Sobre Nós</a></li>
           <li><a href="login.html">Login</a></li>
-          <li><a href="carrinho.html" id="cart-counter">🛒 Carrinho (0)</a></li>
+          <li>
+            <a href="carrinho.html" id="cart-counter" aria-label="Carrinho, 0 itens">
+              🛒 Carrinho <span id="cart-count">0</span>
+            </a>
+          </li>
         </ul>
 
         <form class="search-form" role="search">
@@ -50,7 +56,7 @@
           <strong id="cart-total">R$ 0,00</strong>
         </div>
         <a id="checkout-link" class="btn primary" href="checkout.html">Finalizar compra</a>
-        <button id="clear-cart" class="btn">Limpar carrinho</button>
+        <button id="clear-cart" class="btn" type="button">Limpar carrinho</button>
       </aside>
     </main>
 

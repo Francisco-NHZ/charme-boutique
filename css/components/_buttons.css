@@ -1,7 +1,6 @@
-/* ========================================
+/* ========================================================
    BOTÕES
-======================================== */
-
+======================================================== */
 .btn,
 .search-form button,
 #newsletter-form button {
@@ -13,6 +12,7 @@
     border-radius: var(--radius-sm);
     transition: var(--transition);
     cursor: pointer;
+    font-weight: 600;
 }
 
 .btn:hover,
@@ -22,6 +22,14 @@
     color: var(--cor-principal);
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* .btn.primary já era usado no HTML (carrinho/checkout) mas nunca tinha
+   uma regra própria — visualmente caía no .btn genérico. Deixei uma
+   variação levemente mais forte para diferenciar a ação principal. */
+.btn.primary {
+    background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-dourado));
+    box-shadow: 0 12px 24px rgba(247, 50, 148, 0.25);
 }
 
 .btn-secondary {
@@ -43,6 +51,10 @@
     pointer-events: none;
     background: #ccc;
     color: #666;
+}
+
+.search-form button {
+    padding: var(--space-sm) 14px;
 }
 
 #newsletter-form button {

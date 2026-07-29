@@ -1,0 +1,243 @@
+/* ========================================================
+   CARRINHO E CHECKOUT (resumo, itens, pagamento)
+======================================================== */
+.cart-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+  gap: 24px;
+  padding: 40px 20px;
+}
+
+.checkout-page {
+    align-items: start;
+}
+
+.cart-content {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+  padding: 28px;
+}
+
+.cart-content h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: clamp(1.7rem, 2vw, 2.2rem);
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cart-item {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+}
+
+.cart-item img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+
+.cart-item-info {
+  flex: 1;
+  display: grid;
+  gap: 10px;
+}
+
+.cart-item-info h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.item-price {
+  margin: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.item-subtotal {
+  margin: 0;
+  color: #333;
+  font-weight: 700;
+}
+
+.cart-item-info label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.cart-item-info input {
+  width: 100%;
+  max-width: 120px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.cart-item-remove {
+  border: 1px solid #ddd;
+  background: transparent;
+  color: #333;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.cart-item-remove:hover {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
+
+#checkout-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.summary-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-box p {
+  margin: 0;
+  color: #555;
+}
+
+.summary-box strong {
+  font-size: 1.7rem;
+  color: #111;
+}
+
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  color: #555;
+}
+
+.empty-cart p {
+  margin: 0;
+}
+
+.empty-cart .btn {
+  width: auto;
+}
+
+/* --------------------------------------------------------
+   CHECKOUT — método de pagamento
+-------------------------------------------------------- */
+.payment-methods {
+    display: grid;
+    gap: 12px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 2px solid var(--cor-borda);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.payment-option:hover {
+    border-color: rgba(247, 50, 148, 0.4);
+}
+
+.payment-option.selected {
+    border-color: var(--cor-secundaria);
+    background: rgba(247, 50, 148, 0.05);
+}
+
+.payment-option input {
+    width: auto;
+    accent-color: var(--cor-secundaria);
+}
+
+.card-brand-hint {
+    font-size: 0.8rem;
+    color: #777;
+}
+
+#checkout-items .checkout-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--cor-borda);
+    font-size: 0.92rem;
+}
+
+.order-confirmation {
+    grid-column: 1 / -1;
+    text-align: center;
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+}
+
+.order-confirmation .btn {
+    width: fit-content;
+}
+
+#order-id {
+    color: var(--cor-secundaria);
+}
+
+@media (max-width: 980px) {
+  .cart-page {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cart-item-info {
+    align-items: center;
+  }
+
+  .cart-item-info input {
+    max-width: 100%;
+  }
+}

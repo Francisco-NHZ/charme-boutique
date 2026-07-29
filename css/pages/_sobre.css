@@ -1,0 +1,161 @@
+/* ========================================================
+   PÁGINA "SOBRE NÓS" — conteúdo institucional novo
+======================================================== */
+.about-section {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: clamp(1rem, 3vw, 2rem) clamp(1.25rem, 4vw, 5rem) clamp(3rem, 6vw, 5rem);
+}
+
+.about-intro {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: clamp(2rem, 4vw, 3.5rem) 0;
+}
+
+.about-stat {
+    background: var(--cor-branca);
+    border: 1px solid rgba(247, 50, 148, 0.12);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 28px 20px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.about-stat:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+}
+
+.about-stat strong {
+    display: block;
+    font-family: var(--font-title);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    color: var(--cor-secundaria);
+    margin-bottom: 6px;
+}
+
+.about-stat span {
+    color: var(--cor-texto);
+    font-size: 0.92rem;
+}
+
+.about-block {
+    background: var(--cor-branca);
+    border: 1px solid rgba(247, 50, 148, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: clamp(1.75rem, 3vw, 2.75rem);
+    margin-bottom: 28px;
+}
+
+.about-block h2 {
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    color: var(--cor-principal);
+    margin-bottom: 14px;
+}
+
+.about-block p {
+    color: var(--cor-texto);
+    line-height: 1.8;
+    margin-bottom: 14px;
+}
+
+.about-block p:last-child {
+    margin-bottom: 0;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.value-card {
+    background: linear-gradient(135deg, #fffafc 0%, #ffffff 100%);
+    border: 1px solid rgba(247, 50, 148, 0.12);
+    border-radius: var(--radius-md);
+    padding: 22px;
+}
+
+.value-card .value-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.value-card h3 {
+    font-size: 1.05rem;
+    color: var(--cor-principal);
+    margin-bottom: 8px;
+}
+
+.value-card p {
+    font-size: 0.92rem;
+    color: var(--cor-texto);
+    margin: 0;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.timeline-year {
+    flex-shrink: 0;
+    min-width: 72px;
+    font-family: var(--font-title);
+    font-weight: 700;
+    color: var(--cor-secundaria);
+    font-size: 1.1rem;
+}
+
+.timeline-text h4 {
+    font-size: 1rem;
+    color: var(--cor-principal);
+    margin-bottom: 4px;
+}
+
+.timeline-text p {
+    font-size: 0.92rem;
+    color: var(--cor-texto);
+    margin: 0;
+}
+
+.about-cta {
+    text-align: center;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    border-radius: var(--radius-lg);
+    padding: clamp(2rem, 4vw, 3rem);
+    color: var(--cor-branca);
+}
+
+.about-cta h2 {
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    margin-bottom: 10px;
+}
+
+.about-cta p {
+    color: rgba(255,255,255,0.78);
+    margin-bottom: 20px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 780px) {
+    .about-intro {
+        grid-template-columns: 1fr;
+    }
+}

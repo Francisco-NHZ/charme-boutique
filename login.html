@@ -1,39 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self';">
+    <link rel="stylesheet" href="css/style.css">
     <title>Login | Charmê Boutique</title>
   </head>
 
   <body>
     <header class="site-header">
       <a href="index.html" class="logo" aria-label="Charmê Boutique home">
-        <img
-          src="assets/logo/logo.svg"
-          alt="Logo Charmê Boutique"
-          class="logo-image"
-        />
+        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image">
       </a>
 
       <div class="header-actions" aria-label="Ações do cabeçalho">
-        <button
-          class="search-toggle"
-          type="button"
-          aria-label="Abrir busca"
-          aria-expanded="false"
-        >
-          🔎
-        </button>
-        <button
-          class="menu-toggle"
-          type="button"
-          aria-label="Abrir menu"
-          aria-expanded="false"
-        >
-          ☰
-        </button>
+        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
       </div>
 
       <nav class="main-nav">
@@ -43,73 +26,120 @@
           <li><a href="sobre.html">Sobre Nós</a></li>
           <li><a href="login.html">Login</a></li>
           <li>
-            <a href="carrinho.html">
-              🛒 Carrinho <span id="cart-counter">0</span>
+            <a href="carrinho.html" id="cart-counter" aria-label="Carrinho, 0 itens">
+              🛒 Carrinho <span id="cart-count">0</span>
             </a>
           </li>
         </ul>
 
         <form class="search-form" role="search">
           <label class="sr-only" for="site-search">Buscar produtos</label>
-          <input
-            id="site-search"
-            type="text"
-            placeholder="Buscar produtos..."
-            autocomplete="off"
-          />
+          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off">
           <button type="submit" aria-label="Buscar">🔎</button>
         </form>
       </nav>
     </header>
 
     <main>
+      <!--
+        AVISO PARA QUEM ESTIVER ESTUDANDO ESTE CÓDIGO:
+        Este login é 100% simulado no navegador (sem servidor). Os dados de
+        conta ficam salvos em localStorage, no seu próprio computador. Nunca
+        use uma senha real/reutilizada aqui. Veja js/security.js (hash de
+        senha) e js/auth.js (login/cadastro e bloqueio por tentativas).
+      -->
       <section class="hero page-hero">
         <div class="hero-content">
-          <span class="status-pill">Acesse sua conta</span>
-          <h1>Bem-vindo de volta à Charmê</h1>
-          <p>
-            Entre com seus dados para acompanhar pedidos, salvar favoritos e
-            gerenciar suas compras com facilidade.
-          </p>
+          <span class="status-pill">Minha conta</span>
+          <h1>Acesse ou crie sua conta</h1>
+          <p>Entre para simular o acompanhamento de pedidos, ou crie uma conta local para testar o fluxo completo de compra.</p>
 
-          <!-- Formulário funcional de login utilizando o estilo padrão -->
-          <form
-            class="page-actions"
-            style="flex-direction: column; gap: 15px; align-items: stretch"
-            onsubmit="
-              event.preventDefault();
-              alert('Login efetuado com sucesso!');
-            "
-          >
-            <input
-              type="email"
-              placeholder="Seu e-mail"
-              required
-              style="padding: 12px; border-radius: 8px; border: 1px solid #ddd"
-            />
-            <input
-              type="password"
-              placeholder="Sua senha"
-              required
-              style="padding: 12px; border-radius: 8px; border: 1px solid #ddd"
-            />
-            <button type="submit" class="btn">Entrar</button>
-            <a
-              href="index.html"
-              class="btn btn-secondary"
-              style="text-align: center"
-              >Voltar ao início</a
-            >
-          </form>
+          <div class="auth-card" id="auth-card">
+            <div class="auth-tabs" role="tablist" aria-label="Alternar entre login e cadastro">
+              <button type="button" class="auth-tab active" id="tab-login" role="tab" aria-selected="true" aria-controls="login-form">
+                Entrar
+              </button>
+              <button type="button" class="auth-tab" id="tab-register" role="tab" aria-selected="false" aria-controls="register-form">
+                Criar conta
+              </button>
+            </div>
+
+            <!-- FORMULÁRIO DE LOGIN -->
+            <form id="login-form" class="auth-form" novalidate>
+              <div class="form-group">
+                <label for="login-email">E-mail</label>
+                <input type="email" id="login-email" name="email" autocomplete="email" maxlength="180" required>
+                <p class="field-error" id="login-email-error" role="alert"></p>
+              </div>
+
+              <div class="form-group">
+                <label for="login-password">Senha</label>
+                <div class="password-field">
+                  <input type="password" id="login-password" name="password" autocomplete="current-password" maxlength="128" required>
+                  <button type="button" class="password-toggle" data-target="login-password" aria-label="Mostrar senha">👁️</button>
+                </div>
+                <p class="field-error" id="login-password-error" role="alert"></p>
+              </div>
+
+              <!-- Honeypot anti-bot: invisível para pessoas, veja .hp-field no CSS -->
+              <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+              <button type="submit" class="btn">Entrar</button>
+              <p class="form-message" id="login-message" role="status" aria-live="polite"></p>
+
+              <p class="secure-note">🔒 Após 5 tentativas erradas, o login fica bloqueado por 30 segundos (proteção simulada contra força bruta).</p>
+            </form>
+
+            <!-- FORMULÁRIO DE CADASTRO -->
+            <form id="register-form" class="auth-form is-hidden" novalidate>
+              <div class="form-group">
+                <label for="register-name">Nome completo</label>
+                <input type="text" id="register-name" name="name" autocomplete="name" maxlength="120" required>
+                <p class="field-error" id="register-name-error" role="alert"></p>
+              </div>
+
+              <div class="form-group">
+                <label for="register-email">E-mail</label>
+                <input type="email" id="register-email" name="email" autocomplete="email" maxlength="180" required>
+                <p class="field-error" id="register-email-error" role="alert"></p>
+              </div>
+
+              <div class="form-group">
+                <label for="register-password">Senha</label>
+                <div class="password-field">
+                  <input type="password" id="register-password" name="password" autocomplete="new-password" required minlength="8" maxlength="128">
+                  <button type="button" class="password-toggle" data-target="register-password" aria-label="Mostrar senha">👁️</button>
+                </div>
+                <div class="strength-meter" id="register-strength">
+                  <span></span><span></span><span></span><span></span>
+                </div>
+                <p class="strength-label" id="register-strength-label"></p>
+                <p class="field-error" id="register-password-error" role="alert"></p>
+              </div>
+
+              <div class="form-group">
+                <label for="register-confirm">Confirmar senha</label>
+                <input type="password" id="register-confirm" name="confirm" autocomplete="new-password" maxlength="128" required>
+                <p class="field-error" id="register-confirm-error" role="alert"></p>
+              </div>
+
+              <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+              <button type="submit" class="btn">Criar conta</button>
+              <p class="form-message" id="register-message" role="status" aria-live="polite"></p>
+
+              <p class="secure-note">🔒 Sua senha nunca é salva em texto puro — usamos hash SHA-256 com "salt" só para fins didáticos.</p>
+            </form>
+          </div>
         </div>
 
         <div class="hero-image">
           <div class="page-card">
             <h3>Vantagens da conta</h3>
             <ul class="page-list">
-              <li>Acompanhamento de entregas em tempo real</li>
-              <li>Histórico completo de pedidos</li>
-              <li>Acesso antecipado a lançamentos e promoções</li>
+              <li>Cadastro e login validados no navegador</li>
+              <li>Histórico de pedidos salvo neste dispositivo</li>
+              <li>Fluxo completo de compra para você testar e estudar</li>
             </ul>
           </div>
         </div>
@@ -118,16 +148,9 @@
 
     <footer>
       <p>🌸 Charmê Boutique</p>
-      <p>
-        &copy; <span id="current-year"></span> Todos os direitos reservados.
-      </p>
+      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
       <p>Desenvolvido por NHZ WebSolutions</p>
-      <a
-        href="https://www.linkedin.com/in/nhzfrancisco/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Francisco Almeida</a
-      >
+      <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
     </footer>
 
     <script type="module" src="js/main.js"></script>

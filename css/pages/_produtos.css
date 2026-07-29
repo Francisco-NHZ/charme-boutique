@@ -1,0 +1,35 @@
+/* ========================================================
+   PÁGINA DE PRODUTOS — busca do catálogo + filtro por categoria
+======================================================== */
+.catalog-tools {
+    max-width: 480px;
+    margin: 0 auto clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.catalog-tools input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--cor-borda);
+    border-radius: 999px;
+    font-size: 16px;
+}
+
+.catalog-tools input:focus {
+    outline: none;
+    border-color: var(--cor-secundaria);
+    box-shadow: var(--focus-ring);
+}
+
+.filter-btn {
+    border: none;
+    cursor: pointer;
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-dourado));
+    color: var(--cor-branca);
+}
+
+.filter-btn.active .category-name {
+    color: var(--cor-branca);
+}

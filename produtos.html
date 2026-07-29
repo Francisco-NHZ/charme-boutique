@@ -1,148 +1,159 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Content-Security-Policy (CSP) via meta tag: reduz o risco de scripts
+      externos/inline maliciosos serem executados na página. Em produção
+      real, o ideal é enviar isso como cabeçalho HTTP pelo servidor (mais
+      forte que a meta tag), mas aqui, como é um site 100% estático,
+      deixamos documentado o conceito.
 
-    <link rel="stylesheet" href="style.css" />
-
+      Quando este projeto ganhar um backend/API real, a única mudança
+      necessária aqui é liberar o domínio da API em "connect-src", por
+      exemplo: connect-src 'self' https://api.seudominio.com;
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self';"
+    />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Produtos | Charmê Boutique</title>
   </head>
 
   <body>
     <header class="site-header">
-      <a href="index.html" class="logo" aria-label="Página inicial">
-        <img
-          src="assets/logo/logo.svg"
-          alt="Charmê Boutique"
-          class="logo-image"
-        />
+      <a href="index.html" class="logo" aria-label="Charmê Boutique home">
+        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image" />
       </a>
 
-      <div class="header-actions">
-        <button class="search-toggle" type="button" aria-label="Buscar">
+      <div class="header-actions" aria-label="Ações do cabeçalho">
+        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">
           🔎
         </button>
-
-        <button class="menu-toggle" type="button" aria-label="Menu">☰</button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+          ☰
+        </button>
       </div>
 
       <nav class="main-nav">
         <ul>
           <li><a href="index.html">Início</a></li>
-
-          <li><a class="active" href="produtos.html">Produtos</a></li>
-
+          <li><a href="produtos.html">Produtos</a></li>
           <li><a href="sobre.html">Sobre Nós</a></li>
-
           <li><a href="login.html">Login</a></li>
-
           <li>
-            <a href="carrinho.html">
-              🛒 Carrinho <span id="cart-counter">0</span>
+            <a href="carrinho.html" id="cart-counter" aria-label="Carrinho, 0 itens">
+              🛒 Carrinho <span id="cart-count">0</span>
             </a>
           </li>
         </ul>
+
+        <!--
+          BUG CORRIGIDO (ver REVIEW.md #1): este formulário e o input de
+          #catalog-search (mais abaixo) tinham o MESMO id="site-search"
+          duplicado. Isso é HTML inválido e fazia querySelector sempre
+          pegar só o primeiro — a busca do catálogo simplesmente não
+          funcionava. Agora cada um tem um id próprio e o js/filters.js
+          mantém os dois sincronizados.
+        -->
+        <form class="search-form" role="search">
+          <label class="sr-only" for="site-search">Buscar produtos</label>
+          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off" />
+          <button type="submit" aria-label="Buscar">🔎</button>
+        </form>
       </nav>
     </header>
 
     <main>
-      <!-- HERO -->
-
-      <section class="page-hero">
-        <span class="page-badge"> ✨ Coleção Charmê Boutique </span>
-
-        <h1>Nossa Coleção</h1>
-
-        <p>
-          Descubra bolsas, necessaires e acessórios feitos para mulheres que
-          valorizam elegância, praticidade e sofisticação.
-        </p>
-
-        <div class="page-actions">
-          <a href="#catalogo" class="btn"> Comprar Agora </a>
-
-          <a href="#categorias" class="btn btn-secondary">
-            Explorar Categorias
-          </a>
+      <section class="hero page-hero">
+        <div class="hero-content">
+          <span class="status-pill">Coleção completa</span>
+          <h1>Nossos produtos</h1>
+          <p>
+            Bolsas, necessaires, acessórios e maquiagens escolhidos a dedo. Use a busca ou filtre
+            por categoria para encontrar sua próxima peça favorita.
+          </p>
+        </div>
+        <div class="hero-image">
+          <div class="page-card">
+            <h3>Como funciona a busca</h3>
+            <ul class="page-list">
+              <li>Digite um nome, categoria ou palavra-chave</li>
+              <li>Combine com os filtros de categoria abaixo</li>
+              <li>Clique em "Ver detalhes" para ver mais sobre o item</li>
+            </ul>
+          </div>
         </div>
       </section>
 
-      <!-- CATEGORIAS -->
-
-      <section class="categories" id="categorias">
+      <!-- FILTROS DE CATEGORIA
+           Cada botão tem data-category, lido pelo js/filters.js
+           (função setupCategoryFilters) para filtrar os cards abaixo. -->
+      <section class="categories">
         <div class="categories-header">
-          <h2>Navegue por Categoria</h2>
-
-          <p>Encontre rapidamente o que procura.</p>
+          <h2>Filtrar por categoria</h2>
+          <p>Clique em uma categoria para refinar sua busca.</p>
         </div>
 
         <ul class="categories-grid">
           <li>
-            <button class="category-card filter-btn active" data-category="all">
+            <button type="button" class="category-card filter-btn active" data-category="all">
               <span class="category-icon">✨</span>
-
-              <span class="category-name"> Todos </span>
+              <span class="category-name">Todos</span>
             </button>
           </li>
-
           <li>
-            <button class="category-card filter-btn" data-category="Bolsas">
-              <span class="category-icon"> 👜 </span>
-
-              <span class="category-name"> Bolsas </span>
+            <button type="button" class="category-card filter-btn" data-category="Bolsas">
+              <span class="category-icon">👜</span>
+              <span class="category-name">Bolsas</span>
             </button>
           </li>
-
           <li>
-            <button
-              class="category-card filter-btn"
-              data-category="Necessaires"
-            >
-              <span class="category-icon"> 👝 </span>
-
-              <span class="category-name"> Necessaires </span>
+            <button type="button" class="category-card filter-btn" data-category="Necessaires">
+              <span class="category-icon">🎒</span>
+              <span class="category-name">Necessaires</span>
             </button>
           </li>
-
           <li>
-            <button class="category-card filter-btn" data-category="Acessórios">
-              <span class="category-icon"> 👓 </span>
-
-              <span class="category-name"> Acessórios </span>
+            <button type="button" class="category-card filter-btn" data-category="Acessórios">
+              <span class="category-icon">👓</span>
+              <span class="category-name">Acessórios</span>
             </button>
           </li>
-
           <li>
-            <button class="category-card filter-btn" data-category="Maquiagens">
-              <span class="category-icon"> 💄 </span>
-
-              <span class="category-name"> Maquiagens </span>
+            <button type="button" class="category-card filter-btn" data-category="Maquiagens">
+              <span class="category-icon">💄</span>
+              <span class="category-name">Maquiagens</span>
             </button>
           </li>
         </ul>
       </section>
 
-      <!-- BUSCA -->
-
-      <section class="featured-products" id="catalogo">
-        <div class="categories-header">
-          <h2>Nosso Catálogo</h2>
-
-          <p>Escolha seu próximo favorito.</p>
-        </div>
+      <section class="featured-products">
+        <h3>Catálogo</h3>
 
         <div class="catalog-tools">
-          <input
-            id="site-search"
-            type="text"
-            placeholder="Buscar produtos..."
-            autocomplete="off"
-          />
+          <label class="sr-only" for="catalog-search">Buscar produtos no catálogo</label>
+          <input id="catalog-search" type="text" placeholder="Buscar produtos..." autocomplete="off" />
         </div>
 
-        <p id="search-status" class="search-status"></p>
+        <!--
+          CATÁLOGO DE PRODUTOS
+          ---------------------------------------------------------------
+          Cada <article class="product-card"> guarda os dados do produto em
+          atributos data-*. O js/filters.js e js/cart.js leem esses
+          atributos (nunca texto livre dentro do HTML) — assim é fácil
+          adicionar um produto novo: basta copiar um <article> e trocar os
+          data-* e o conteúdo visível.
 
+          IDs e preços mantidos IDÊNTICOS aos usados em "Produtos em
+          destaque" (index.html) para o mesmo produto — no projeto
+          original, "Óculos Riviera" aparecia com um id e preço na home
+          e com outro id/preço diferente no catálogo, então o mesmo
+          produto virava DUAS linhas diferentes no carrinho. Corrigido.
+        -->
         <div class="product-grid">
           <!-- BOLSAS -->
 
@@ -151,27 +162,19 @@
             data-id="p1"
             data-category="Bolsas"
             data-name="Bolsa Mykonos"
-            data-price="R$ 199,90"
-            data-description="Bolsa sofisticada para o dia a dia."
+            data-price="R$ 219,90"
+            data-description="Bolsa sofisticada em tecido acetinado, com alça dupla ajustável e forro interno antirrisco. Perfeita para transitar do trabalho para a noite sem perder o charme."
             data-image="assets/img/bolsa-mykonos.png"
           >
-            <img
-              class="product-image"
-              src="assets/img/bolsa-mykonos.png"
-              alt="Bolsa Mykonos"
-            />
+            <img class="product-image" src="assets/img/bolsa-mykonos.png" alt="Bolsa Mykonos" />
 
             <h4>Bolsa Mykonos</h4>
 
-            <p class="price">R$ 199,90</p>
+            <p class="price">R$ 219,90</p>
 
-            <button class="btn product-details-btn" type="button">
-              Ver detalhes
-            </button>
+            <button class="btn product-details-btn" type="button">Ver detalhes</button>
 
-            <button class="btn add-cart-btn" type="button">
-              🛒 Adicionar ao Carrinho
-            </button>
+            <button class="btn add-cart-btn" type="button">🛒 Adicionar ao Carrinho</button>
           </article>
 
           <article
@@ -179,27 +182,19 @@
             data-id="p2"
             data-category="Bolsas"
             data-name="Bolsa Dubai"
-            data-price="R$ 399,90"
-            data-description="Bolsa elegante para o dia a dia."
+            data-price="R$ 429,90"
+            data-description="Bolsa premium em couro sintético texturizado, com fechamento em metal dourado e compartimento acolchoado para notebook até 14 polegadas. Elegância que impõe presença."
             data-image="assets/img/bolsa-dubai.jpg"
           >
-            <img
-              class="product-image"
-              src="assets/img/bolsa-dubai.jpg"
-              alt="Bolsa Dubai"
-            />
+            <img class="product-image" src="assets/img/bolsa-dubai.jpg" alt="Bolsa Dubai" />
 
             <h4>Bolsa Dubai</h4>
 
-            <p class="price">R$ 399,90</p>
+            <p class="price">R$ 429,90</p>
 
-            <button class="btn product-details-btn" type="button">
-              Ver detalhes
-            </button>
+            <button class="btn product-details-btn" type="button">Ver detalhes</button>
 
-            <button class="btn add-cart-btn" type="button">
-              🛒 Adicionar ao Carrinho
-            </button>
+            <button class="btn add-cart-btn" type="button">🛒 Adicionar ao Carrinho</button>
           </article>
 
           <article
@@ -207,27 +202,19 @@
             data-id="p3"
             data-category="Bolsas"
             data-name="Bolsa Havana"
-            data-price="R$ 99,90"
-            data-description="Bolsa para o dia a dia."
+            data-price="R$ 119,90"
+            data-description="Bolsa tote leve e espaçosa, ideal para o dia a dia — cabe agenda, carteira e ainda sobra espaço para uma garrafinha de água."
             data-image="assets/img/bolsa-havana.png"
           >
-            <img
-              class="product-image"
-              src="assets/img/bolsa-havana.png"
-              alt="Bolsa Havana"
-            />
+            <img class="product-image" src="assets/img/bolsa-havana.png" alt="Bolsa Havana" />
 
             <h4>Bolsa Havana</h4>
 
-            <p class="price">R$ 99,90</p>
+            <p class="price">R$ 119,90</p>
 
-            <button class="btn product-details-btn" type="button">
-              Ver detalhes
-            </button>
+            <button class="btn product-details-btn" type="button">Ver detalhes</button>
 
-            <button class="btn add-cart-btn" type="button">
-              🛒 Adicionar ao Carrinho
-            </button>
+            <button class="btn add-cart-btn" type="button">🛒 Adicionar ao Carrinho</button>
           </article>
 
           <article
@@ -235,27 +222,19 @@
             data-id="p4"
             data-category="Bolsas"
             data-name="Bolsa Florença"
-            data-price="R$ 299,90"
-            data-description="Bolsa sofisticada para o dia a dia."
+            data-price="R$ 279,90"
+            data-description="Bolsa estruturada com costura artesanal e alça de mão removível, inspirada nos ateliês italianos. Um clássico atemporal para qualquer produção."
             data-image="assets/img/bolsa-florenca.png"
           >
-            <img
-              class="product-image"
-              src="assets/img/bolsa-florenca.png"
-              alt="Bolsa Florença"
-            />
+            <img class="product-image" src="assets/img/bolsa-florenca.png" alt="Bolsa Florença" />
 
             <h4>Bolsa Florença</h4>
 
-            <p class="price">R$ 299,90</p>
+            <p class="price">R$ 279,90</p>
 
-            <button class="btn product-details-btn" type="button">
-              Ver detalhes
-            </button>
+            <button class="btn product-details-btn" type="button">Ver detalhes</button>
 
-            <button class="btn add-cart-btn" type="button">
-              🛒 Adicionar ao Carrinho
-            </button>
+            <button class="btn add-cart-btn" type="button">🛒 Adicionar ao Carrinho</button>
           </article>
 
           <!-- NECESSAIRES -->
@@ -265,8 +244,8 @@
             data-id="p5"
             data-name="Necessaire Paris"
             data-category="Necessaires"
-            data-description="Necessaire com compartimentos internos e acabamento premium."
-            data-price="R$ 89,90"
+            data-description="Necessaire compacta com compartimentos internos organizadores e acabamento premium à prova de respingos — a companheira ideal para a mala de viagem."
+            data-price="R$ 94,90"
             data-image="assets/img/necessaire-paris.jpg"
           >
             <img
@@ -275,13 +254,9 @@
               alt="Necessaire Paris"
             />
             <h4>Necessaire Paris</h4>
-            <p class="price">R$ 89,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              🛒 Adicionar ao Carrinho
-            </button>
+            <p class="price">R$ 94,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">🛒 Adicionar ao Carrinho</button>
           </article>
 
           <article
@@ -289,8 +264,8 @@
             data-id="p6"
             data-name="Necessaire Valencia"
             data-category="Necessaires"
-            data-description="Necessaire com acabamento premium para organizar seus itens com estilo."
-            data-price="R$ 149,90"
+            data-description="Necessaire de dupla abertura com espelho interno embutido, perfeita para levar maquiagem e itens de higiene sem amassar nada."
+            data-price="R$ 134,90"
             data-image="assets/img/necessaire-dubai.jpg"
           >
             <img
@@ -299,13 +274,9 @@
               alt="Necessaire Dubai"
             />
             <h4>Necessaire Valencia</h4>
-            <p class="price">R$ 149,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              🛒 Adicionar ao Carrinho
-            </button>
+            <p class="price">R$ 134,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">🛒 Adicionar ao Carrinho</button>
           </article>
 
           <article
@@ -313,8 +284,8 @@
             data-id="p7"
             data-name="Necessaire Ibiza"
             data-category="Necessaires"
-            data-description="Necessaire para o dia a dia com elegancia"
-            data-price="R$ 75,90"
+            data-description="Necessaire pequena e resistente à água, com alça de mão — cabe na bolsa e ainda sobra espaço para o perfume favorito."
+            data-price="R$ 79,90"
             data-image="assets/img/necessaire-havana.jpg"
           >
             <img
@@ -323,13 +294,9 @@
               alt="Necessaire Havana"
             />
             <h4>Necessaire Ibiza</h4>
-            <p class="price">R$ 75,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              🛒 Adicionar ao Carrinho
-            </button>
+            <p class="price">R$ 79,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">🛒 Adicionar ao Carrinho</button>
           </article>
 
           <article
@@ -337,49 +304,37 @@
             data-id="p8"
             data-name="Necessaire Sardenha"
             data-category="Necessaires"
-            data-description="Necessaire com compartimentos para todas as suas necessidades"
-            data-price="R$ 95,90"
+            data-description="Necessaire com três compartimentos independentes: um para maquiagem, outro para skincare e um extra para o que mais precisar levar."
+            data-price="R$ 99,90"
             data-image="assets/img/necessaire-florenca.jpg"
           >
             <img
               class="product-image"
               src="assets/img/necessaire-florenca.jpg"
-              alt="Necessaire Paris"
+              alt="Necessaire Sardenha"
             />
             <h4>Necessaire Sardenha</h4>
-            <p class="price">R$ 95,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              🛒 Adicionar ao Carrinho
-            </button>
+            <p class="price">R$ 99,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">🛒 Adicionar ao Carrinho</button>
           </article>
 
-          <!-- ACESSORIOS -->
+          <!-- ACESSÓRIOS -->
 
           <article
             class="product-card"
             data-id="p9"
             data-name="Óculos Riviera"
             data-category="Acessórios"
-            data-description="Óculos com lente UV e design moderno para looks sofisticados."
+            data-description="Óculos de sol com lentes de proteção UV400 e armação leve em acetato — design moderno que fecha qualquer look com personalidade."
             data-price="R$ 349,90"
             data-image="assets/img/oculos-riviera.png"
           >
-            <img
-              class="product-image"
-              src="assets/img/oculos-riviera.png"
-              alt="Óculos Riviera"
-            />
+            <img class="product-image" src="assets/img/oculos-riviera.png" alt="Óculos Riviera" />
             <h4>Óculos Riviera</h4>
             <p class="price">R$ 349,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
           <article
@@ -387,23 +342,15 @@
             data-id="p10"
             data-name="Óculos Veneza"
             data-category="Acessórios"
-            data-description="Óculos com design para qualquer ocasiao."
+            data-description="Óculos com lentes polarizadas antirreflexo e haste flexível, feito para quem não abre mão de conforto e estilo em qualquer ocasião."
             data-price="R$ 495,90"
             data-image="assets/img/oculos-dubai.jpg"
           >
-            <img
-              class="product-image"
-              src="assets/img/oculos-dubai.jpg"
-              alt="Óculos Veneza"
-            />
+            <img class="product-image" src="assets/img/oculos-dubai.jpg" alt="Óculos Veneza" />
             <h4>Óculos Veneza</h4>
             <p class="price">R$ 495,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
           <article
@@ -411,23 +358,15 @@
             data-id="p11"
             data-name="Óculos Santorini"
             data-category="Acessórios"
-            data-description="Óculos com lente UV e design moderno para looks sofisticados."
-            data-price="R$ 801,90"
+            data-description="Óculos de sol com armação espelhada e proteção total contra raios UV — a peça-chave para elevar qualquer produção de verão."
+            data-price="R$ 599,90"
             data-image="assets/img/oculos-havana.jpg"
           >
-            <img
-              class="product-image"
-              src="assets/img/oculos-havana.jpg"
-              alt="Óculos Santorini"
-            />
+            <img class="product-image" src="assets/img/oculos-havana.jpg" alt="Óculos Santorini" />
             <h4>Óculos Santorini</h4>
-            <p class="price">R$ 801,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 599,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
           <article
@@ -435,23 +374,15 @@
             data-id="p12"
             data-name="Óculos Miami"
             data-category="Acessórios"
-            data-description="Óculos com lente UV e design moderno para looks sofisticados."
-            data-price="R$ 679,90"
+            data-description="Óculos com design arredondado e lentes degradê, trazendo um toque retrô moderno para o seu dia a dia."
+            data-price="R$ 459,90"
             data-image="assets/img/oculos-florenca.jpg"
           >
-            <img
-              class="product-image"
-              src="assets/img/oculos-florenca.jpg"
-              alt="Óculos Miami"
-            />
+            <img class="product-image" src="assets/img/oculos-florenca.jpg" alt="Óculos Miami" />
             <h4>Óculos Miami</h4>
-            <p class="price">R$ 679,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 459,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
           <!-- MAQUIAGENS -->
@@ -461,8 +392,8 @@
             data-id="p13"
             data-name="Kit Maquiagem Glam"
             data-category="Maquiagens"
-            data-description="Kit completo para makes elegantes com itens selecionados."
-            data-price="R$ 129,90"
+            data-description="Kit completo com paleta de sombras, batom matte e blush em nude rosado — tudo que você precisa para um make elegante em uma nécessaire só."
+            data-price="R$ 139,90"
             data-image="assets/img/kit-maquiagem-glam.png"
           >
             <img
@@ -471,13 +402,9 @@
               alt="Kit Maquiagem Glam"
             />
             <h4>Kit Maquiagem Glam</h4>
-            <p class="price">R$ 129,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 139,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
           <article
@@ -485,8 +412,8 @@
             data-id="p14"
             data-name="Kit Maquiagem Malibu"
             data-category="Maquiagens"
-            data-description="Kit completo para makes elegantes com itens selecionados."
-            data-price="R$ 449,90"
+            data-description="Kit premium com base de alta cobertura, iluminador e 3 tons de batom líquido — para quem gosta de versatilidade sem abrir mão da qualidade."
+            data-price="R$ 289,90"
             data-image="assets/img/kit-maquiagem-dubai.jpg"
           >
             <img
@@ -495,13 +422,9 @@
               alt="Kit Maquiagem Malibu"
             />
             <h4>Kit Maquiagem Malibu</h4>
-            <p class="price">R$ 449,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 289,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
           <article
@@ -509,8 +432,8 @@
             data-id="p15"
             data-name="Kit Maquiagem Aspen"
             data-category="Maquiagens"
-            data-description="Kit completo para makes elegantes com itens selecionados."
-            data-price="R$ 269,90"
+            data-description="Kit com paleta multifuncional para olhos, rosto e lábios, além de pincéis inclusos — praticidade tanto para viagem quanto para o dia a dia."
+            data-price="R$ 189,90"
             data-image="assets/img/kit-maquiagem-havana.png"
           >
             <img
@@ -519,13 +442,9 @@
               alt="Kit Maquiagem Aspen"
             />
             <h4>Kit Maquiagem Aspen</h4>
-            <p class="price">R$ 269,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 189,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
           <article
@@ -533,8 +452,8 @@
             data-id="p16"
             data-name="Kit Maquiagem Capri"
             data-category="Maquiagens"
-            data-description="Kit completo para makes elegantes com itens selecionados."
-            data-price="R$ 699,90"
+            data-description="Kit profissional com 12 itens, incluindo primer, corretivo de alta cobertura e fixador de maquiagem — pensado para quem ama make na régua."
+            data-price="R$ 449,90"
             data-image="assets/img/kit-maquiagem-florenca.png"
           >
             <img
@@ -543,86 +462,39 @@
               alt="Kit Maquiagem Capri"
             />
             <h4>Kit Maquiagem Capri</h4>
-            <p class="price">R$ 699,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 449,90</p>
+            <button type="button" class="btn product-details-btn">Ver detalhes</button>
+            <button type="button" class="btn add-cart-btn">Adicionar ao carrinho</button>
           </article>
         </div>
-      </section>
 
-      <!-- NEWSLETTER -->
-
-      <section class="contact">
-        <div class="contact-newsletter">
-          <span class="contact-badge"> ✨ Exclusivo </span>
-
-          <h3>Fique por dentro das promoçoes</h3>
-
-          <p>Não encontrou o que procura? Novos produtos chegam toda semana.</p>
-
-          <form id="newsletter-form">
-            <input
-              id="newsletter-email"
-              type="email"
-              placeholder="Digite seu e-mail"
-              required
-            />
-
-            <button class="btn" type="submit">Assinar</button>
-          </form>
-
-          <p id="newsletter-message" class="form-message"></p>
-        </div>
+        <p id="search-status" class="search-status" aria-live="polite"></p>
       </section>
     </main>
 
-    <!-- MODAL -->
+    <footer>
+      <p>🌸 Charmê Boutique</p>
+      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
+      <p>Desenvolvido por NHZ WebSolutions</p>
+      <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer"
+        >Francisco Almeida</a
+      >
+    </footer>
 
+    <!-- MODAL DE PRODUTO (igual ao de index.html, reaproveitado pelo js/modal.js) -->
     <div class="modal" id="product-modal" aria-hidden="true">
       <div class="modal-backdrop" data-close-modal></div>
-
-      <div class="modal-dialog">
-        <button class="modal-close" data-close-modal>✕</button>
-
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" type="button" aria-label="Fechar" data-close-modal>×</button>
         <img id="modal-image" src="" alt="" />
-
         <div class="modal-content">
           <h3 id="modal-title"></h3>
-
           <p id="modal-description"></p>
-
-          <p id="modal-price" class="modal-price"></p>
-
-          <button class="btn modal-add-cart-btn">
-            🛒 Adicionar ao Carrinho
-          </button>
+          <p class="modal-price" id="modal-price"></p>
+          <button type="button" class="btn modal-buy-btn">Adicionar ao Carrinho</button>
         </div>
       </div>
     </div>
-
-    <footer>
-      <p>🌸 Charmê Boutique</p>
-
-      <p>
-        © <span id="current-year"></span>
-
-        Todos os direitos reservados.
-      </p>
-
-      <p>Desenvolvido por NHZ WebSolutions</p>
-
-      <a
-        href="https://www.linkedin.com/in/nhzfrancisco/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Francisco Almeida
-      </a>
-    </footer>
 
     <script type="module" src="js/main.js"></script>
   </body>

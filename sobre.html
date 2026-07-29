@@ -1,39 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Content-Security-Policy: ver comentário completo em produtos.html -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self';">
+    <meta name="description" content="Conheça a história, a missão e os valores da Charmê Boutique — curadoria de bolsas, necessaires, acessórios e maquiagens com identidade própria.">
+    <link rel="stylesheet" href="css/style.css">
     <title>Sobre Nós | Charmê Boutique</title>
   </head>
 
   <body>
     <header class="site-header">
       <a href="index.html" class="logo" aria-label="Charmê Boutique home">
-        <img
-          src="assets/logo/logo.svg"
-          alt="Logo Charmê Boutique"
-          class="logo-image"
-        />
+        <img src="assets/logo/logo.svg" alt="Logo Charmê Boutique" class="logo-image">
       </a>
 
       <div class="header-actions" aria-label="Ações do cabeçalho">
-        <button
-          class="search-toggle"
-          type="button"
-          aria-label="Abrir busca"
-          aria-expanded="false"
-        >
-          🔎
-        </button>
-        <button
-          class="menu-toggle"
-          type="button"
-          aria-label="Abrir menu"
-          aria-expanded="false"
-        >
-          ☰
-        </button>
+        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
       </div>
 
       <nav class="main-nav">
@@ -43,20 +28,15 @@
           <li><a href="sobre.html">Sobre Nós</a></li>
           <li><a href="login.html">Login</a></li>
           <li>
-            <a href="carrinho.html">
-              🛒 Carrinho <span id="cart-counter">0</span>
+            <a href="carrinho.html" id="cart-counter" aria-label="Carrinho, 0 itens">
+              🛒 Carrinho <span id="cart-count">0</span>
             </a>
           </li>
         </ul>
 
         <form class="search-form" role="search">
           <label class="sr-only" for="site-search">Buscar produtos</label>
-          <input
-            id="site-search"
-            type="text"
-            placeholder="Buscar produtos..."
-            autocomplete="off"
-          />
+          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off">
           <button type="submit" aria-label="Buscar">🔎</button>
         </form>
       </nav>
@@ -66,43 +46,161 @@
       <section class="hero page-hero">
         <div class="hero-content">
           <span class="status-pill">Nossa essência</span>
-          <h1>A história da Charmê Boutique</h1>
+          <h1>Charme não é sobre ter mais. É sobre escolher melhor.</h1>
           <p>
-            Nascida do desejo de unir sofisticação, praticidade e personalidade,
-            a Charmê Boutique oferece acessórios e bolsas pensados para
-            acompanhar você em todos os momentos com elegância marcante.
+            Somos uma boutique curada peça por peça — bolsas, necessaires, acessórios e
+            maquiagens escolhidos para quem valoriza qualidade, atitude e um toque de
+            sofisticação no dia a dia.
           </p>
           <div class="page-actions">
-            <a href="index.html" class="btn">Voltar ao início</a>
-            <a href="produtos.html" class="btn btn-secondary">Ver produtos</a>
+            <a href="produtos.html" class="btn">Ver coleção</a>
+            <a href="#nossa-historia" class="btn btn-secondary">Conhecer nossa história</a>
           </div>
         </div>
 
         <div class="hero-image">
           <div class="page-card">
-            <h3>Nossos Pilares</h3>
+            <h3>Por que escolher a Charmê</h3>
             <ul class="page-list">
-              <li>Identidade elegante e autêntica</li>
-              <li>Peças com alto padrão de acabamento</li>
-              <li>Atendimento humanizado e personalizado</li>
+              <li>Curadoria própria, sem excesso de catálogo</li>
+              <li>Peças pensadas para durar, não só para a foto</li>
+              <li>Atendimento com atenção real, de gente para gente</li>
             </ul>
           </div>
+        </div>
+      </section>
+
+      <section class="about-section">
+        <div class="about-intro">
+          <div class="about-stat">
+            <strong>+15 mil</strong>
+            <span>clientes que já compraram com a gente</span>
+          </div>
+          <div class="about-stat">
+            <strong>16</strong>
+            <span>peças com curadoria ativa no catálogo</span>
+          </div>
+          <div class="about-stat">
+            <strong>4,8/5</strong>
+            <span>média de satisfação nas avaliações</span>
+          </div>
+        </div>
+
+        <div class="about-block" id="nossa-historia">
+          <h2>🌸 Nossa história</h2>
+          <p>
+            A Charmê Boutique nasceu de uma pergunta simples: por que é tão difícil encontrar
+            acessórios bonitos, bem-feitos e com preço justo — sem precisar visitar dez lojas
+            diferentes? A resposta virou um propósito: reunir, em um só lugar, peças que a gente
+            de fato usaria e recomendaria para uma amiga.
+          </p>
+          <p>
+            Começamos pequenos, com uma seleção enxuta de bolsas e necessaires escolhidas a dedo.
+            Hoje, o catálogo cresceu para incluir óculos, acessórios e maquiagens — mas o espírito
+            continua o mesmo: cada item que entra na coleção passa por uma curadoria criteriosa
+            antes de chegar até você.
+          </p>
+          <p>
+            Este site em si também é parte dessa história: um projeto construído com carinho,
+            código aberto e boas práticas de front-end, para servir tanto como loja de estudo
+            quanto como vitrine real da nossa proposta.
+          </p>
+        </div>
+
+        <div class="about-block">
+          <h2>🎯 Missão, visão e valores</h2>
+          <p>
+            <strong>Missão:</strong> tornar o acesso à moda de qualidade mais simples, oferecendo
+            curadoria de confiança, preços justos e uma experiência de compra tranquila do início
+            ao fim.
+          </p>
+          <p>
+            <strong>Visão:</strong> ser a boutique de referência para quem busca peças com
+            identidade — sem seguir modismos passageiros, mas também sem ficar parada no tempo.
+          </p>
+
+          <div class="values-grid">
+            <div class="value-card">
+              <span class="value-icon">✨</span>
+              <h3>Curadoria de verdade</h3>
+              <p>Cada peça é escolhida por qualidade e design, não só para encher prateleira.</p>
+            </div>
+            <div class="value-card">
+              <span class="value-icon">🤝</span>
+              <h3>Transparência</h3>
+              <p>Preço claro, descrição honesta do produto e comunicação sem letras miúdas.</p>
+            </div>
+            <div class="value-card">
+              <span class="value-icon">🔒</span>
+              <h3>Segurança em primeiro lugar</h3>
+              <p>Seus dados e sua compra protegidos com boas práticas em cada etapa do site.</p>
+            </div>
+            <div class="value-card">
+              <span class="value-icon">💛</span>
+              <h3>Atendimento humano</h3>
+              <p>Toda dúvida é respondida por gente de verdade, com atenção genuína.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-block">
+          <h2>📅 Nossa linha do tempo</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <span class="timeline-year">2021</span>
+              <div class="timeline-text">
+                <h4>O primeiro catálogo</h4>
+                <p>Nascemos com uma pequena curadoria de bolsas e necessaires, vendida diretamente pelas redes sociais.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-year">2022</span>
+              <div class="timeline-text">
+                <h4>Expansão da coleção</h4>
+                <p>Óculos e acessórios entraram no catálogo, respondendo a um dos pedidos mais frequentes das clientes.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-year">2023</span>
+              <div class="timeline-text">
+                <h4>Linha de maquiagens</h4>
+                <p>Lançamos os primeiros kits de maquiagem com curadoria própria, completando o "look inteiro" da Charmê.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-year">Hoje</span>
+              <div class="timeline-text">
+                <h4>Uma loja online completa</h4>
+                <p>Site próprio com busca, carrinho, cadastro de conta e checkout — pensado para uma experiência de compra tranquila do início ao fim.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-block">
+          <h2>🛡️ Como cuidamos da sua compra</h2>
+          <p>
+            Sabemos que comprar online exige confiança. Por isso, este site foi construído com
+            proteções pensadas desde a raiz: senha nunca é salva em texto puro, formulários têm
+            proteção contra bots, e sua conexão é validada por uma política rígida de segurança
+            de conteúdo (CSP). Ainda somos um projeto de estudo em evolução — mas levamos
+            segurança a sério em cada etapa, exatamente como faríamos em produção.
+          </p>
+        </div>
+
+        <div class="about-cta">
+          <h2>Pronta para encontrar sua próxima peça favorita?</h2>
+          <p>Navegue pela coleção completa e filtre por categoria em poucos cliques.</p>
+          <a href="produtos.html" class="btn primary">Ver todos os produtos</a>
         </div>
       </section>
     </main>
 
     <footer>
       <p>🌸 Charmê Boutique</p>
-      <p>
-        &copy; <span id="current-year"></span> Todos os direitos reservados.
-      </p>
+      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
       <p>Desenvolvido por NHZ WebSolutions</p>
-      <a
-        href="https://www.linkedin.com/in/nhzfrancisco/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Francisco Almeida</a
-      >
+      <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
     </footer>
 
     <script type="module" src="js/main.js"></script>

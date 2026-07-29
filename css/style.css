@@ -1,0 +1,43 @@
+/* ====================================================================
+   CHARMÊ BOUTIQUE — style.css (ponto de entrada)
+   ---------------------------------------------------------------
+   Este é o ÚNICO arquivo CSS que os HTML devem linkar
+   (<link rel="stylesheet" href="css/style.css">). Ele não define
+   nenhum estilo próprio — só importa os módulos abaixo, na ordem em
+   que precisam ser lidos (base -> layout -> componentes -> páginas
+   específicas -> utilitários, que sempre vêm por último para poder
+   sobrescrever o resto quando necessário).
+
+   NOTA DE PERFORMANCE: @import em CSS puro faz o navegador buscar cada
+   arquivo em cascata (uma requisição depois da outra), o que é um
+   pouco mais lento que um único arquivo. Para um site de estudo isso é
+   imperceptível. Se este projeto crescer para produção com tráfego
+   real, o próximo passo natural é passar por um bundler (Vite,
+   esbuild, Parcel) que junta tudo em um arquivo só na hora do build —
+   a estrutura de pastas já modular facilita muito essa migração.
+==================================================================== */
+
+/* 1. Base: variáveis, reset e tipografia */
+@import url('base/_variables.css');
+@import url('base/_reset.css');
+@import url('base/_typography.css');
+
+/* 2. Layout: elementos que aparecem em toda página */
+@import url('layout/_header.css');
+@import url('layout/_footer.css');
+
+/* 3. Componentes reutilizáveis */
+@import url('components/_buttons.css');
+@import url('components/_forms.css');
+@import url('components/_modal.css');
+@import url('components/_cards.css');
+@import url('components/_cart.css');
+@import url('components/_auth.css');
+@import url('components/_contact.css');
+
+/* 4. Estilos específicos de uma única página */
+@import url('pages/_produtos.css');
+@import url('pages/_sobre.css');
+
+/* 5. Utilitários (sempre por último, para poder sobrescrever) */
+@import url('utilities/_utilities.css');

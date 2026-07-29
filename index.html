@@ -1,45 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Content-Security-Policy: ver comentário completo em produtos.html.
+      Quando este projeto ganhar um backend/API real, a única linha que
+      precisa mudar aqui é o "connect-src" (ex.: connect-src 'self'
+      https://api.seudominio.com;) para o navegador permitir as
+      chamadas fetch() para esse domínio.
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self';">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Charmê Boutique</title>
   </head>
 
   <body>
     <header class="site-header">
       <a href="index.html" class="logo" aria-label="Charmê Boutique home">
-        <img
-          src="assets/logo/logo.svg"
-          alt="Charmê Boutique"
-          class="logo-image"
-        />
+        <img src="assets/logo/logo.svg" alt="Charmê Boutique" class="logo-image" />
       </a>
 
       <div class="header-actions" aria-label="Ações do cabeçalho">
-        <button
-          class="search-toggle"
-          type="button"
-          aria-label="Abrir busca"
-          aria-expanded="false"
-        >
-          🔎
-        </button>
-        <button
-          class="menu-toggle"
-          type="button"
-          aria-label="Abrir menu"
-          aria-expanded="false"
-        >
-          ☰
-        </button>
+        <button class="search-toggle" type="button" aria-label="Abrir busca" aria-expanded="false">🔎</button>
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
       </div>
 
       <nav class="main-nav">
@@ -48,21 +35,21 @@
           <li><a href="produtos.html">Produtos</a></li>
           <li><a href="sobre.html">Sobre</a></li>
           <li><a href="login.html">Login</a></li>
+          <!--
+            Estrutura do contador padronizada em TODAS as páginas
+            (ver REVIEW.md, bug #3): sempre <a id="cart-counter"> com um
+            <span id="cart-count"> dentro guardando só o número.
+          -->
           <li>
-            <a href="carrinho.html">
-              🛒 Carrinho <span id="cart-counter">0</span>
+            <a href="carrinho.html" id="cart-counter" aria-label="Carrinho, 0 itens">
+              🛒 Carrinho <span id="cart-count">0</span>
             </a>
           </li>
         </ul>
 
         <form class="search-form" role="search">
           <label class="sr-only" for="site-search">Buscar produtos</label>
-          <input
-            id="site-search"
-            type="text"
-            placeholder="Buscar produtos..."
-            autocomplete="off"
-          />
+          <input id="site-search" type="text" placeholder="Buscar produtos..." autocomplete="off" />
           <button type="submit" aria-label="Buscar">🔎</button>
         </form>
       </nav>
@@ -120,100 +107,60 @@
         <h3>Produtos em destaque</h3>
 
         <div class="product-grid">
-          <article
-            class="product-card"
+          <article class="product-card"
             data-id="p1"
             data-name="Bolsa Mykonos"
             data-category="Bolsas"
-            data-description="Bolsa elegante em tecido acetinado, perfeita para o dia e a noite."
-            data-price="R$ 199,90"
-            data-image="assets/img/bolsa-mykonos.png"
-          >
-            <img
-              class="product-image"
-              src="assets/img/bolsa-mykonos.png"
-              alt="Bolsa Mykonos"
-            />
+            data-description="Bolsa sofisticada em tecido acetinado, com alça dupla e forro interno antirrisco. Perfeita para transitar do trabalho para a noite sem perder o charme."
+            data-price="R$ 219,90"
+            data-image="assets/img/bolsa-mykonos.png">
+            <img class="product-image" src="assets/img/bolsa-mykonos.png" alt="Bolsa Mykonos" />
             <h4>Bolsa Mykonos</h4>
-            <p class="price">R$ 199,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 219,90</p>
+            <button type="button" class="product-details-btn">Ver detalhes</button>
+            <button type="button" class="add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
-          <article
-            class="product-card"
-            data-id="p2"
+          <article class="product-card"
+            data-id="p5"
             data-name="Necessaire Paris"
             data-category="Necessaires"
-            data-description="Necessaire com compartimentos internos e acabamento premium."
-            data-price="R$ 89,90"
-            data-image="assets/img/necessaire-paris.jpg"
-          >
-            <img
-              class="product-image"
-              src="assets/img/necessaire-paris.jpg"
-              alt="Necessaire Paris"
-            />
+            data-description="Necessaire compacta com compartimentos internos organizadores e acabamento premium à prova de respingos — a companheira ideal para a mala de viagem."
+            data-price="R$ 94,90"
+            data-image="assets/img/necessaire-paris.jpg">
+            <img class="product-image" src="assets/img/necessaire-paris.jpg" alt="Necessaire Paris" />
             <h4>Necessaire Paris</h4>
-            <p class="price">R$ 89,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 94,90</p>
+            <button type="button" class="product-details-btn">Ver detalhes</button>
+            <button type="button" class="add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
-          <article
-            class="product-card"
-            data-id="p3"
+          <article class="product-card"
+            data-id="p9"
             data-name="Óculos Riviera"
             data-category="Acessórios"
-            data-description="Óculos com lente UV e design moderno para looks sofisticados."
-            data-price="R$ 149,90"
-            data-image="assets/img/oculos-riviera.png"
-          >
-            <img
-              class="product-image"
-              src="assets/img/oculos-riviera.png"
-              alt="Óculos Riviera"
-            />
+            data-description="Óculos de sol com lentes de proteção UV400 e armação leve em acetato — design moderno que fecha qualquer look com personalidade."
+            data-price="R$ 349,90"
+            data-image="assets/img/oculos-riviera.png">
+            <img class="product-image" src="assets/img/oculos-riviera.png" alt="Óculos Riviera" />
             <h4>Óculos Riviera</h4>
-            <p class="price">R$ 149,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 349,90</p>
+            <button type="button" class="product-details-btn">Ver detalhes</button>
+            <button type="button" class="add-cart-btn">Adicionar ao carrinho</button>
           </article>
 
-          <article
-            class="product-card"
-            data-id="p4"
+          <article class="product-card"
+            data-id="p13"
             data-name="Kit Maquiagem Glam"
             data-category="Maquiagens"
-            data-description="Kit completo para makes elegantes com itens selecionados."
-            data-price="R$ 129,90"
-            data-image="assets/img/kit-maquiagem-glam.png"
-          >
-            <img
-              class="product-image"
-              src="assets/img/kit-maquiagem-glam.png"
-              alt="Kit Maquiagem Glam"
-            />
+            data-description="Kit completo com paleta de sombras, batom matte e blush em nude rosado — tudo que você precisa para um make elegante em uma nécessaire só."
+            data-price="R$ 139,90"
+            data-image="assets/img/kit-maquiagem-glam.png">
+            <img class="product-image" src="assets/img/kit-maquiagem-glam.png" alt="Kit Maquiagem Glam" />
             <h4>Kit Maquiagem Glam</h4>
-            <p class="price">R$ 129,90</p>
-            <button type="button" class="product-details-btn">
-              Ver detalhes
-            </button>
-            <button type="button" class="add-cart-btn">
-              Adicionar ao carrinho
-            </button>
+            <p class="price">R$ 139,90</p>
+            <button type="button" class="product-details-btn">Ver detalhes</button>
+            <button type="button" class="add-cart-btn">Adicionar ao carrinho</button>
           </article>
         </div>
 
@@ -226,20 +173,11 @@
           <h3>Receba novidades da coleção</h3>
           <p>Cadastre-se para receber lançamentos e ofertas especiais.</p>
           <form id="newsletter-form">
-            <input
-              id="newsletter-email"
-              type="email"
-              placeholder="Digite seu e-mail"
-              required
-            />
+            <label class="sr-only" for="newsletter-email">Seu e-mail</label>
+            <input id="newsletter-email" type="email" placeholder="Digite seu e-mail" required />
             <button type="submit" class="btn">Assinar</button>
           </form>
-          <p
-            id="newsletter-message"
-            class="form-message"
-            role="status"
-            aria-live="polite"
-          ></p>
+          <p id="newsletter-message" class="form-message" role="status" aria-live="polite"></p>
         </div>
 
         <div class="contact-info">
@@ -253,46 +191,28 @@
 
     <footer>
       <p>🌸 Charmê Boutique</p>
-      <p>
-        &copy; <span id="current-year"></span> Todos os direitos reservados.
-      </p>
+      <p>&copy; <span id="current-year"></span> Todos os direitos reservados.</p>
       <p>Desenvolvido por NHZ WebSolutions</p>
-      <a
-        href="https://www.linkedin.com/in/nhzfrancisco/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Francisco Almeida</a
-      >
+      <a href="https://www.linkedin.com/in/nhzfrancisco/" target="_blank" rel="noopener noreferrer">Francisco Almeida</a>
     </footer>
 
     <div class="modal" id="product-modal" aria-hidden="true">
       <div class="modal-backdrop" data-close-modal></div>
-      <div
-        class="modal-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-      >
-        <button
-          class="modal-close"
-          type="button"
-          aria-label="Fechar"
-          data-close-modal
-        >
-          ×
-        </button>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" type="button" aria-label="Fechar" data-close-modal>×</button>
         <img id="modal-image" src="" alt="" />
         <div class="modal-content">
           <h3 id="modal-title"></h3>
           <p id="modal-description"></p>
           <p class="modal-price" id="modal-price"></p>
-          <button type="button" class="btn modal-buy-btn">
-            Adicionar ao Carrinho
-          </button>
+          <button type="button" class="btn modal-buy-btn">Adicionar ao Carrinho</button>
         </div>
       </div>
     </div>
 
+    <!-- type="module": necessário p/ import/export do js/main.js.
+         Exige servir por http:// (Live Server, python -m http.server),
+         não funciona abrindo o arquivo direto (file://). Ver README. -->
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

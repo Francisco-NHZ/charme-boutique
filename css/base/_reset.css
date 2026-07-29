@@ -1,0 +1,40 @@
+/* ========================================================
+   RESET + ESTILOS BASE DO DOCUMENTO
+======================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(247, 50, 148, 0.08), transparent 24%),
+        linear-gradient(135deg, #fffdfc 0%, #ffffff 100%);
+    color: var(--cor-texto);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    padding-top: 74px; /* compensa o header fixo, ver layout/_header.css */
+    font-size: 16px;
+}
+
+main {
+    width: 100%;
+}
+
+/* Foco visível para navegação por teclado — acessibilidade básica que
+   não custa nada visualmente e evita reprovação em auditoria a11y. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}

@@ -1,12 +1,15 @@
-// Comportamento do cabeçalho: menu mobile, toggle de busca,
-// destaque do link ativo, esconder header ao rolar e barra de progresso.
-
+/* ====================================================================
+   header.js — menu mobile, busca (toggle mobile), scroll reveal,
+   barra de progresso de scroll, header some ao rolar, ano automático
+   no rodapé, e destaque do link ativo na navegação.
+==================================================================== */
 const header = document.querySelector(".site-header");
 const menuToggle = document.querySelector(".menu-toggle");
 const searchToggle = document.querySelector(".search-toggle");
 const mainNav = document.querySelector(".main-nav");
 const searchForm = document.querySelector(".search-form");
 const searchInput = document.querySelector("#site-search");
+const currentYearElement = document.querySelector("#current-year");
 
 export function updateActiveNavLink() {
   const links = document.querySelectorAll(".main-nav a");
@@ -62,6 +65,35 @@ export function setupHeaderControls() {
   });
 }
 
+export function setupScrollReveal() {
+  const revealElements = document.querySelectorAll(
+    ".hero, .categories, .featured-products, .contact, .product-card, .category-card, .contact-newsletter, .about-block, .about-stat"
+  );
+
+  if (!revealElements.length) return;
+
+  revealElements.forEach((element) => {
+    element.style.opacity = "0";
+    element.style.transform = "translateY(24px)";
+    element.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+  });
+
+  const observer = new IntersectionObserver(
+    (entries, observerInstance) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const target = entry.target;
+        target.style.opacity = "1";
+        target.style.transform = "translateY(0)";
+        observerInstance.unobserve(target);
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+  );
+
+  revealElements.forEach((element) => observer.observe(element));
+}
+
 export function toggleHeaderOnScroll() {
   if (!header) return;
   const currentScroll = window.scrollY || document.documentElement.scrollTop;
@@ -79,4 +111,16 @@ export function updateScrollProgress() {
   const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
   const percent = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
   progress.style.width = `${percent}%`;
+}
+
+export function updateCurrentYear() {
+  if (!currentYearElement) return;
+  currentYearElement.textContent = new Date().getFullYear();
+}
+
+export function setupScrollEffects() {
+  window.addEventListener("scroll", () => {
+    toggleHeaderOnScroll();
+    updateScrollProgress();
+  });
 }
