@@ -163,16 +163,18 @@ tomaria em produção, com comentários explicando o motivo de cada uma:
 
 ## 🔌 Pronto para um backend futuro
 
-- `js/storage.js` é a única peça que sabe que os dados vêm do
-  `localStorage` — trocar por uma API real significa reescrever só
-  este arquivo.
-- `js/api.js` já tem a estrutura comentada (timeout de rede, cabeçalho
-  de CSRF, tratamento de erro) pronta para receber as chamadas reais
-  quando o backend existir.
-- `js/config.js` tem `FEATURE_FLAGS.USE_BACKEND` e `API_BASE_URL`
-  centralizados — dois valores para mudar quando chegar a hora.
-- No CSP de cada página HTML, só a linha `connect-src 'self'` precisa
-  ganhar o domínio da API (comentário deixado no lugar exato).
+## 🔌 Pronto para um backend futuro
+
+A arquitetura atual mantém o acesso aos dados locais centralizado em `js/storage.js`, reduzindo o acoplamento direto ao `localStorage` e facilitando uma futura substituição por uma API real.
+
+* `js/storage.js` centraliza as operações de persistência local. Em uma futura migração para backend, ele pode ser substituído ou adaptado para trabalhar com uma API, reduzindo o impacto da mudança nos demais módulos.
+* `js/api.js` já possui a estrutura documentada para receber chamadas reais, incluindo timeout de rede, cabeçalhos e tratamento de erros.
+* `js/config.js` mantém `FEATURE_FLAGS.USE_BACKEND` e `API_BASE_URL` centralizados para facilitar a configuração do ambiente.
+* A migração para backend também exigiria adaptações nos módulos que dependem de autenticação, persistência e operações assíncronas, além da implementação de sessões/autorização no servidor.
+* No CSP de cada página HTML, a diretiva `connect-src 'self'` precisaria incluir o domínio da API quando as chamadas externas fossem habilitadas.
+
+A implementação atual permanece **100% client-side e educacional**. A estrutura foi organizada para facilitar uma evolução futura, mas não representa uma integração backend já existente.
+
 
 ## Dicas de manutenção
 
