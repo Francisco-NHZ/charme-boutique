@@ -18,26 +18,26 @@
 ==================================================================== */
 
 /* 1. Base: variáveis, reset e tipografia */
-@import url('base/_variables.css');
-@import url('base/_reset.css');
-@import url('base/_typography.css');
+@import url('base/variables.css');
+@import url('base/reset.css');
+@import url('base/typography.css');
 
 /* 2. Layout: elementos que aparecem em toda página */
-@import url('layout/_header.css');
-@import url('layout/_footer.css');
+@import url('layout/header.css');
+@import url('layout/footer.css');
 
 /* 3. Componentes reutilizáveis */
-@import url('components/_buttons.css');
-@import url('components/_forms.css');
-@import url('components/_modal.css');
-@import url('components/_cards.css');
-@import url('components/_cart.css');
-@import url('components/_auth.css');
-@import url('components/_contact.css');
+@import url('components/buttons.css');
+@import url('components/forms.css');
+@import url('components/modal.css');
+@import url('components/cards.css');
+@import url('components/cart.css');
+@import url('components/auth.css');
+@import url('components/contact.css');
 
 /* 4. Estilos específicos de uma única página */
-@import url('pages/_produtos.css');
-@import url('pages/_sobre.css');
+@import url('pages/produtos.css');
+@import url('pages/sobre.css');
 
 /* 5. Utilitários (sempre por último, para poder sobrescrever) */
-@import url('utilities/_utilities.css');
+@import url('utilities/utilities.css');
